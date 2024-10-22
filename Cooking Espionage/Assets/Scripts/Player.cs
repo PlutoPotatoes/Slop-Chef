@@ -14,7 +14,9 @@ public class Player : MonoBehaviour
     private ObjectGrabbable heldObject;
     private float interactBuffer = 0.2f;
     private float interactCooldown;
-    
+    private float throwStrength = 500.0f;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("e") && interactCooldown <=0)
         {
             Interact();
+        }
+        if(Input.GetKeyDown("r") && heldObject != null)
+        {
+            throwObject();
         }
 
     }
@@ -74,6 +80,11 @@ public class Player : MonoBehaviour
                             onUtilityInteract(hit_info);
                             interactCooldown = interactBuffer;
                             break;
+                        case "Dispenser":
+                            onDispenserInteract(hit_info);
+                            interactCooldown = interactBuffer;
+                            break;
+
 
                     }
                 }
@@ -100,6 +111,23 @@ public class Player : MonoBehaviour
         Debug.Log(hit_info.distance);
         Debug.Log(hit_info.collider);
         Debug.Log("But its a fridge");
+
+    }
+
+    void onDispenserInteract(RaycastHit hit_info)
+    {
+        hit_info.transform.TryGetComponent(out Dispenser dispenser);
+        ObjectGrabbable dispensedObject = dispenser.CreateObject();
+        heldObject = dispensedObject;
+        dispensedObject.Grab(objectGrabPointTransform);
+    }
+
+    void throwObject()
+    {
+        Vector3 throwForce = cameraTransform.forward * throwStrength;
+        heldObject.Grab(null);
+        heldObject.throwObject(throwForce);
+        heldObject = null;
 
     }
 }

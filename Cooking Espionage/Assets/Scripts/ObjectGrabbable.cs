@@ -13,20 +13,30 @@ public class ObjectGrabbable : MonoBehaviour
     }
     public void Grab(Transform objectGrabPointTransform)
     {
-        this.objectGrabPoint = objectGrabPointTransform; 
+        this.objectGrabPoint = objectGrabPointTransform;
     }
 
     private void FixedUpdate()
     {
-        if(objectGrabPoint != null){
+        if (objectGrabPoint != null)
+        {
             float lerp = 10f;
             Vector3 newPosition = Vector3.Lerp(transform.position, objectGrabPoint.position, Time.deltaTime * lerp);
             objectRigidBody.MovePosition(newPosition);
-            objectRigidBody.isKinematic = true;
+            //objectRigidBody.isKinematic = true;
+            objectRigidBody.useGravity = false;
         }
         else
         {
+            objectRigidBody.useGravity = true;
             objectRigidBody.isKinematic = false;
         }
     }
+
+    public void throwObject(Vector3 throwForce)
+    {
+        objectRigidBody.isKinematic = false;
+        objectRigidBody.AddForce(throwForce, ForceMode.Impulse);
+    }
+
 }
