@@ -74,19 +74,20 @@ public class Player : MonoBehaviour
                     {
                         case "Ingredient":
                             onInteract(hit_info);
-                            interactCooldown = interactBuffer;
                             break;
                         case "Utility":
                             onUtilityInteract(hit_info);
-                            interactCooldown = interactBuffer;
                             break;
                         case "Dispenser":
                             onDispenserInteract(hit_info);
-                            interactCooldown = interactBuffer;
+                            break;
+                        case "Finished_Food":
+                            onInteract(hit_info);
                             break;
 
-
                     }
+                    interactCooldown = interactBuffer;
+
                 }
             }
         }

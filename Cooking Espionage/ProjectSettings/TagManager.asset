@@ -8,6 +8,8 @@ TagManager:
   - Ingredient
   - Utility
   - Building
+  - Dispenser
+  - Finished_Food
   layers:
   - Default
   - TransparentFX
