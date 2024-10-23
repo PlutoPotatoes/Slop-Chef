@@ -7,16 +7,27 @@ public class ObjectGrabbable : MonoBehaviour
 
     private Rigidbody objectRigidBody;
     private Transform objectGrabPoint;
+    private bool held;
     private void Awake()
     {
         objectRigidBody = GetComponent<Rigidbody>();
+        held = false;
     }
     public void Grab(Transform objectGrabPointTransform)
     {
         this.objectGrabPoint = objectGrabPointTransform;
+        held = (objectGrabPoint != null);
     }
 
     private void FixedUpdate()
+    {
+        if(objectRigidBody != null)
+        {
+            updateObject();
+        }
+    }
+
+    private void updateObject()
     {
         if (objectGrabPoint != null)
         {
@@ -32,11 +43,14 @@ public class ObjectGrabbable : MonoBehaviour
             objectRigidBody.isKinematic = false;
         }
     }
-
     public void throwObject(Vector3 throwForce)
     {
         objectRigidBody.isKinematic = false;
         objectRigidBody.AddForce(throwForce, ForceMode.Impulse);
     }
 
+    public bool isHeld()
+    {
+        return held;
+    }
 }

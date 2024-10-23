@@ -6,7 +6,8 @@ public class plate : MonoBehaviour
 {
     private CapsuleCollider foodPickupZone;
     private bool plateFull = false;
-    private Rigidbody heldFood;
+    private bool movine = false;
+    private bool heldObject;
 
     // Start is called before the first frame update
     void Start()
@@ -17,12 +18,6 @@ public class plate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if( heldFood != null)
-        {
-            // is still using gravity and isn't very smooth, start here
-            heldFood.position = transform.position;
-            heldFood.useGravity = false;
-        }
         
     }
 
@@ -30,10 +25,19 @@ public class plate : MonoBehaviour
     {
         if (!plateFull && other.tag == "Finished_Food")
         {
+            other.gameObject.transform.root.parent = this.gameObject.transform;
             other.TryGetComponent<Rigidbody>(out Rigidbody objectRigidBody);
-            heldFood = objectRigidBody;
+            objectRigidBody.MovePosition(this.transform.GetChild(0).position);
+            Destroy(objectRigidBody);
+            other.TryGetComponent(out ObjectGrabbable objectGrabbable);
+            objectGrabbable.Grab(null);
 
 
         }
+    }
+
+    private void moveToCenter()
+    {
+
     }
 }

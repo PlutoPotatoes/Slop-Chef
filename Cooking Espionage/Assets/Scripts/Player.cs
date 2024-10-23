@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         inputListener();
+        objectReleaseCheck();
 
         
     }
@@ -48,6 +49,12 @@ public class Player : MonoBehaviour
             throwObject();
         }
 
+    }
+    private void objectReleaseCheck()
+    {
+        if (heldObject != null && heldObject.isHeld() == false){
+            heldObject = null;
+        }
     }
 
     private void cooldownHandler(float delta)
