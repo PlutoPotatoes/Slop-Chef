@@ -91,18 +91,64 @@ public class Player : MonoBehaviour
                         case "Finished_Food":
                             onInteract(hit_info);
                             break;
+                        case "Plate":
+                            onInteract(hit_info);
+                            break;
+                        case "Bowl":
+                            onInteract(hit_info);
+                            break;
 
                     }
                     interactCooldown = interactBuffer;
+                    return;
 
                 }
             }
-        }
-        else
+        }else if (heldObject.tag == "Plate")
         {
-            heldObject.Grab(null);
-            heldObject = null;
+            RaycastHit hit_info;
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range))
+            {
+                if (hit_info.collider.tag == "Plate_Dispenser")
+                {
+                    Debug.Log("plate food");
+                    return;
+                    // add food to plate
+                }
+                else if (hit_info.collider.tag == "Bowl_Dispenser")
+                {
+                    Debug.Log("Wrong dish dumbass");
+                    return;
+                }
+                }
         }
+        else if (heldObject.tag == "Bowl")
+        {
+            RaycastHit hit_info;
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range))
+            {
+                if (hit_info.collider.tag == "Bowl_Dispenser")
+                {
+                    
+                    Material slopType = hit_info.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
+                    heldObject.TryGetComponent(out bowl bowlScript);
+                    bowlScript.setSlop(slopType);
+                    Debug.Log(slopType);
+                    return;
+                    // add food to Bowl
+                }
+                else if (hit_info.collider.tag == "Plate_Dispenser")
+                {
+                    Debug.Log("Wrong dish dumbass");
+                    return;
+                }
+            }
+
+        }
+       
+        heldObject.Grab(null);
+        heldObject = null;
+
 
 
     }
