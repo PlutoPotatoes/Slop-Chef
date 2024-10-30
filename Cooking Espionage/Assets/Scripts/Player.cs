@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask pickUpLayerMask;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform objectGrabPointTransform;
+    [SerializeField] private Transform objectGrabPointReset;
+
 
 
 
@@ -15,13 +17,15 @@ public class Player : MonoBehaviour
     private float interactBuffer = 0.2f;
     private float interactCooldown;
     private float throwStrength = 500.0f;
+    private float objectDistance;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        objectDistance = objectGrabPointTransform.localPosition.z;
+        
     }
 
     // Update is called once per frame
@@ -48,12 +52,32 @@ public class Player : MonoBehaviour
         {
             throwObject();
         }
+        // OBjectGrabPoint z can move between min 5 and max 7
+        if(Input.mouseScrollDelta.y > 0 && objectDistance < 8f)
+        {
+            objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position + (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
+            objectDistance = objectGrabPointTransform.localPosition.z;
 
+
+        }
+        if (Input.mouseScrollDelta.y < 0 && objectDistance > 5.5f)
+        {
+            objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position - (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
+            objectDistance = objectGrabPointTransform.localPosition.z;
+            Debug.Log(objectDistance);
+
+
+        }
     }
     private void objectReleaseCheck()
     {
         if (heldObject != null && heldObject.isHeld() == false){
             heldObject = null;
+            
+        }else if (heldObject == null)
+        {
+            objectGrabPointTransform.position = objectGrabPointReset.position;
+            objectDistance = objectGrabPointReset.localPosition.z;
         }
     }
 
