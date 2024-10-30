@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
 
 
         }
-        if (Input.mouseScrollDelta.y < 0 && objectDistance > 5.5f)
+        if (Input.mouseScrollDelta.y < 0 && objectDistance > 4.5f)
         {
             objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position - (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
             objectDistance = objectGrabPointTransform.localPosition.z;
@@ -135,7 +135,15 @@ public class Player : MonoBehaviour
             {
                 if (hit_info.collider.tag == "Plate_Dispenser")
                 {
-                    Debug.Log("plate food");
+                    heldObject.TryGetComponent(out plate plateScript);
+                    if (plateScript.plateFull)
+                    {
+                        Debug.Log("Plate is full");
+                    }
+                    else
+                    {
+                        plateScript.getGruel();
+                    }
                     return;
                     // add food to plate
                 }
@@ -153,13 +161,18 @@ public class Player : MonoBehaviour
             {
                 if (hit_info.collider.tag == "Bowl_Dispenser")
                 {
-                    
-                    Material slopType = hit_info.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
                     heldObject.TryGetComponent(out bowl bowlScript);
-                    bowlScript.setSlop(slopType);
-                    Debug.Log(slopType);
+                    if (bowlScript.bowlFull)
+                    {
+                        Debug.Log("bowl is full");
+                    }
+                    else
+                    {
+                        Material slopType = hit_info.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
+                        bowlScript.setSlop(slopType);
+                    }
+                    
                     return;
-                    // add food to Bowl
                 }
                 else if (hit_info.collider.tag == "Plate_Dispenser")
                 {

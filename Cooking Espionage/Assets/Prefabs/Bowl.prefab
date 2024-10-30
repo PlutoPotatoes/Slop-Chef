@@ -198,7 +198,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095a20b07a440db48ba938a496ff223a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bowlFull: 0
 --- !u!4 &644432087898095515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4a7234dcdbf0cd143b0c7afb08c1d4cb, type: 3}
