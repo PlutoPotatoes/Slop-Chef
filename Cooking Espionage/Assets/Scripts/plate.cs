@@ -21,6 +21,7 @@ public class plate : MonoBehaviour
     void Update()
     {
         
+        
     }
 
     public void getGruel()
@@ -28,6 +29,7 @@ public class plate : MonoBehaviour
         gruel.SetActive(true);
         plateFull = true;
         plateContents.Add("gruel");
+        gruel.transform.Find("Worms").gameObject.SetActive(true);
     }
 
 

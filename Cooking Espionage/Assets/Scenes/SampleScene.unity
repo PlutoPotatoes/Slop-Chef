@@ -16526,7 +16526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5578893956840338712, guid: 82dfd7a5f1307a347bcf6482184ca2cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.667125
+      value: 0.544
       objectReference: {fileID: 0}
     - target: {fileID: 5578893956840338712, guid: 82dfd7a5f1307a347bcf6482184ca2cc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19408,10 +19408,6 @@ PrefabInstance:
     - target: {fileID: 3649655413696053277, guid: 58f375650048d794bafa560fc8e38165, type: 3}
       propertyPath: m_Name
       value: GruelTrough
-      objectReference: {fileID: 0}
-    - target: {fileID: 3649655413696053277, guid: 58f375650048d794bafa560fc8e38165, type: 3}
-      propertyPath: m_TagString
-      value: Plate_Dispenser
       objectReference: {fileID: 0}
     - target: {fileID: 4174272734498331303, guid: 58f375650048d794bafa560fc8e38165, type: 3}
       propertyPath: m_LocalPosition.x
