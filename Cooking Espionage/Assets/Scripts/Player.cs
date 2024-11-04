@@ -152,6 +152,14 @@ public class Player : MonoBehaviour
                     Debug.Log("Wrong dish dumbass");
                     return;
                 }
+                else if (hit_info.collider.tag == "Topping_Dispenser")
+                {
+                    heldObject.TryGetComponent(out plate plateScript);
+                    hit_info.collider.TryGetComponent(out toppings_dispenser toppingScript);
+                    plateScript.get_topping(toppingScript.get_topping());
+                    return;
+
+                }
                 }
         }
         else if (heldObject.tag == "Bowl")

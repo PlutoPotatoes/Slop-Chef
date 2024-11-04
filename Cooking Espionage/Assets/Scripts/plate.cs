@@ -29,9 +29,38 @@ public class plate : MonoBehaviour
         gruel.SetActive(true);
         plateFull = true;
         plateContents.Add("gruel");
-        gruel.transform.Find("Worms").gameObject.SetActive(true);
     }
 
+    public void get_topping(string topping)
+    {
+        if (plateContents.Contains("gruel"))
+        {
+            switch (topping)
+            {
+                case "eyeballs":
+                    if (!plateContents.Contains("eyeballs"))
+                    {
+                        gruel.transform.Find("Eyeballs").gameObject.SetActive(true);
+                        plateContents.Add("eyeballs");
+                        getPlateContents();
+                    }
+                    break;
+                case "syrup":
+                    if (!plateContents.Contains("syrup"))
+                    {
+                        gruel.transform.Find("Syrup").gameObject.SetActive(true);
+                        plateContents.Add("syrup");
+                        getPlateContents();
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void getPlateContents()
+    {
+        Debug.Log(plateContents.ToString());
+    }
 
 
     
