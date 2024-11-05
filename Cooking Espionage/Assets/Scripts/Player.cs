@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
         {
             objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position - (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
             objectDistance = objectGrabPointTransform.localPosition.z;
-            Debug.Log(objectDistance);
 
 
         }

@@ -29,9 +29,13 @@ public class bowl: MonoBehaviour
         slop.GetComponent<SpriteRenderer>().material = slopType;
         slop.SetActive(true);
         bowlFull = true;
-        string slopName = slopType.name.Replace("(Instance)", "");
-        bowlContents.Add(slopName);        
+        string slopName = slopType.name.Replace(" (Instance)", "");
+        bowlContents.Add(slopName);
     }
 
+    public HashSet<string> get_contents()
+    {
+        return bowlContents;
+    }
 
 }

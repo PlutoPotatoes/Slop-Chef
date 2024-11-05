@@ -42,7 +42,7 @@ public class plate : MonoBehaviour
                     {
                         gruel.transform.Find("Eyeballs").gameObject.SetActive(true);
                         plateContents.Add("eyeballs");
-                        getPlateContents();
+                        get_contents();
                     }
                     break;
                 case "syrup":
@@ -50,19 +50,19 @@ public class plate : MonoBehaviour
                     {
                         gruel.transform.Find("Syrup").gameObject.SetActive(true);
                         plateContents.Add("syrup");
-                        getPlateContents();
+                        get_contents();
                     }
                     break;
             }
         }
     }
 
-    public void getPlateContents()
+    public HashSet<string> get_contents()
     {
-        Debug.Log(plateContents.ToString());
+        return plateContents;
     }
 
 
-    
+
 
 }

@@ -15,6 +15,7 @@ TagManager:
   - Plate_Dispenser
   - Bowl_Dispenser
   - Topping_Dispenser
+  - Expo
   layers:
   - Default
   - TransparentFX
