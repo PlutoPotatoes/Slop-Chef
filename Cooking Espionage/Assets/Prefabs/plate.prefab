@@ -65,20 +65,40 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5809332784569404603, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -5809332784569404603, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -627013767803322508, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -627013767803322508, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28826298069811576, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
       propertyPath: m_Name
       value: gruel_complete
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755233668194120, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7858755233668194120, guid: 03d90d53f1100c4419e89914633aedab, type: 3}
       propertyPath: m_IsActive
@@ -169,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d895ca2c76f73e44786a6c2b5ffd281c, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d895ca2c76f73e44786a6c2b5ffd281c, type: 3}
       propertyPath: m_TagString

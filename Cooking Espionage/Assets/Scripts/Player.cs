@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform objectGrabPointTransform;
     [SerializeField] private Transform objectGrabPointReset;
-
+    [SerializeField] private LayerMask NormalinteractLayers;
+    [SerializeField] private LayerMask dishHeldLayers;
 
 
 
@@ -93,9 +94,9 @@ public class Player : MonoBehaviour
     {
         if (heldObject == null)
         {
+            grab_range = 7;
             RaycastHit hit_info;
-
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range))
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range, NormalinteractLayers))
             {
 
                 if (hit_info.collider != null)
@@ -129,8 +130,9 @@ public class Player : MonoBehaviour
             }
         }else if (heldObject.tag == "Plate")
         {
+            grab_range = 10;
             RaycastHit hit_info;
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range))
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range, dishHeldLayers))
             {
                 if (hit_info.collider.tag == "Plate_Dispenser")
                 {
@@ -163,8 +165,9 @@ public class Player : MonoBehaviour
         }
         else if (heldObject.tag == "Bowl")
         {
+            grab_range = 10;
             RaycastHit hit_info;
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range))
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit_info, grab_range, dishHeldLayers))
             {
                 if (hit_info.collider.tag == "Bowl_Dispenser")
                 {
@@ -189,9 +192,11 @@ public class Player : MonoBehaviour
             }
 
         }
-       
-        heldObject.Grab(null);
-        heldObject = null;
+        if (heldObject != null)
+        {
+            heldObject.Grab(null);
+            heldObject = null;
+        }
 
 
 
