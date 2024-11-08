@@ -36,6 +36,7 @@ public class Expo : MonoBehaviour
         {
             other.gameObject.TryGetComponent(out bowl bowlScript);
             order_contents.Add(bowlScript.get_contents());
+            
         }
         else if (other.tag == "Plate")
         {
