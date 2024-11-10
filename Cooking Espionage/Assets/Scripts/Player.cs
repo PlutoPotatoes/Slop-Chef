@@ -121,6 +121,10 @@ public class Player : MonoBehaviour
                         case "Bowl":
                             onInteract(hit_info);
                             break;
+                        case "Bell":
+                            Debug.Log("Bell Noise");
+                            //send out order function
+                            break;
 
                     }
                     interactCooldown = interactBuffer;

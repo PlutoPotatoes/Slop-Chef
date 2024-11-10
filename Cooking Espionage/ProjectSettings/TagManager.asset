@@ -16,6 +16,7 @@ TagManager:
   - Bowl_Dispenser
   - Topping_Dispenser
   - Expo
+  - Bell
   layers:
   - Default
   - TransparentFX

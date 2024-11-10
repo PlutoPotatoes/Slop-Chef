@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class bowl: MonoBehaviour
 {
+    [SerializeField] Material slop_regular;
+    [SerializeField] Material slop_bug;
+    [SerializeField] Material slop_strawberry;
+    [SerializeField] GameObject slop;
 
     public bool bowlFull;
-    private GameObject slop;
     private HashSet<string> bowlContents = new HashSet<string>();
 
     // Start is called before the first frame update
     void Start()
     {
+        //bow dispenser not working either
         bowlFull = false;
-        slop = transform.GetChild(0).gameObject;
         slop.SetActive(false);
 
     }
@@ -36,6 +39,22 @@ public class bowl: MonoBehaviour
     public HashSet<string> get_contents()
     {
         return bowlContents;
+    }
+
+    public void setSlop(string slopType)
+    {
+        switch (slopType)
+        {
+            case "slop_regular":
+                setSlop(slop_regular);
+                break;
+            case "slop_bug":
+                setSlop(slop_bug);
+                break;
+            case "slop_strawberry":
+                setSlop(slop_strawberry);
+                break;
+        }
     }
 
 }
