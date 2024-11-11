@@ -16,6 +16,9 @@ public class Kitchen_Handler : MonoBehaviour
     private int orders_completed = 0;
     private int current_day = 1;
 
+    private string[] order_bases = new string[4] { "slop_regular", "slop_strawberry", "slop_bug", "gruel" };
+    private string[] toppings = new string[3] {"eyeballs", "worms", "syrup" };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +41,29 @@ public class Kitchen_Handler : MonoBehaviour
 
     private HashSet<HashSet<string>> generateOrder(int round_number)
     {
+        int num_items = Random.Range(1,round_number);
+        HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
+        while (num_items > 0)
+        {
+            HashSet<string> item = new HashSet<string>();
+            string main = order_bases[Random.Range(0, 3)];
+            item.Add(main);
+            if (main.Equals("gruel"))
+            {
+                int topping_num = Random.Range(1, 3);
+                ArrayList toppings_left = new ArrayList(toppings);
+                while(topping_num > 0)
+                {
+                    string topping = toppings_left[Random.Range(0, topping_num-1)] as string;
+                    item.Add(topping);
+                    toppings_left.Remove(topping);
+                    topping_num--;
+                }
 
-        return null;
+            }
+            order.Add(item);
+        }
+        return order;
     }
 
     private void killPlayer()
