@@ -41,12 +41,13 @@ public class Kitchen_Handler : MonoBehaviour
 
     private HashSet<HashSet<string>> generateOrder(int round_number)
     {
-        int num_items = Random.Range(1,round_number);
+        int num_items = Random.Range(1,round_number+1);
         HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
         while (num_items > 0)
         {
             HashSet<string> item = new HashSet<string>();
-            string main = order_bases[Random.Range(0, 3)];
+            string main = order_bases[Random.Range(0, 4)];
+            
             item.Add(main);
             if (main.Equals("gruel"))
             {
@@ -54,14 +55,28 @@ public class Kitchen_Handler : MonoBehaviour
                 ArrayList toppings_left = new ArrayList(toppings);
                 while(topping_num > 0)
                 {
-                    string topping = toppings_left[Random.Range(0, topping_num-1)] as string;
+                    string topping = toppings_left[Random.Range(0, toppings_left.Count)] as string;
                     item.Add(topping);
                     toppings_left.Remove(topping);
                     topping_num--;
                 }
 
             }
-            order.Add(item);
+            bool repeat = false;
+            foreach(HashSet<string> oldItem in order)
+            {
+                if (item.SetEquals(oldItem))
+                {
+                    repeat = true;
+                    break;
+                }
+            }
+            if (!repeat)
+            {
+                num_items--;
+                order.Add(item);
+            }
+            
         }
         return order;
     }
