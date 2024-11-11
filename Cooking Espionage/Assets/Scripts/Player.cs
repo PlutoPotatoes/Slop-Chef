@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform objectGrabPointReset;
     [SerializeField] private LayerMask NormalinteractLayers;
     [SerializeField] private LayerMask dishHeldLayers;
+    [SerializeField] private Animator playerAnimator;
 
 
 
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
     private float interactCooldown;
     private float throwStrength = 500.0f;
     private float objectDistance;
+    public bool canMove;
 
 
 
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         objectDistance = objectGrabPointTransform.localPosition.z;
+        canMove = true;
+        playerAnimator.enabled = true;
         
     }
 
@@ -45,28 +49,39 @@ public class Player : MonoBehaviour
 
     private void inputListener()
     {
-        if (Input.GetKeyDown("e") && interactCooldown <=0)
+        if (canMove)
         {
-            Interact();
+            if (Input.GetKeyDown("e") && interactCooldown <= 0)
+            {
+                Interact();
+            }
+            if (Input.GetKeyDown("r") && heldObject != null)
+            {
+                throwObject();
+            }
+            // OBjectGrabPoint z can move between min 5 and max 7
+            if (Input.mouseScrollDelta.y > 0 && objectDistance < 8f)
+            {
+                objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position + (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
+                objectDistance = objectGrabPointTransform.localPosition.z;
+
+
+            }
+            if (Input.mouseScrollDelta.y < 0 && objectDistance > 4.5f)
+            {
+                objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position - (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
+                objectDistance = objectGrabPointTransform.localPosition.z;
+
+
+            }
+            if (Input.GetKeyDown("k"))
+            {
+                kill_player();
+            }
         }
-        if(Input.GetKeyDown("r") && heldObject != null)
+        else
         {
-            throwObject();
-        }
-        // OBjectGrabPoint z can move between min 5 and max 7
-        if(Input.mouseScrollDelta.y > 0 && objectDistance < 8f)
-        {
-            objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position + (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
-            objectDistance = objectGrabPointTransform.localPosition.z;
-
-
-        }
-        if (Input.mouseScrollDelta.y < 0 && objectDistance > 4.5f)
-        {
-            objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position - (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
-            objectDistance = objectGrabPointTransform.localPosition.z;
-
-
+            heldObject = null;
         }
     }
     private void objectReleaseCheck()
@@ -236,5 +251,11 @@ public class Player : MonoBehaviour
         heldObject.throwObject(throwForce);
         heldObject = null;
 
+    }
+
+    public void kill_player()
+    {
+        playerAnimator.enabled = false;
+        canMove = false;
     }
 }
