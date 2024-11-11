@@ -13,6 +13,9 @@ public class Kitchen_Handler : MonoBehaviour
     Expo expoScript;
     Player playerScript;
 
+    private int orders_completed = 0;
+    private int current_day = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,14 +36,29 @@ public class Kitchen_Handler : MonoBehaviour
         
     }
 
-    private void generateOrder()
+    private HashSet<HashSet<string>> generateOrder(int round_number)
     {
 
+        return null;
     }
 
     private void killPlayer()
     {
 
+    }
+
+    private void order_finished() // called when the player hits the bell
+    {
+        if (expoScript.isOrderComplete())
+        {
+            orders_completed++;
+            set_order(generateOrder(current_day));
+            clockScript.setTimer(7 * current_day);
+        }
+        else
+        {
+            killPlayer();
+        }
     }
 
 }

@@ -109,7 +109,6 @@ public class order_screen : MonoBehaviour
         }
         else
         {
-            // bowl works perfectly but won't show the soup
             bowl.SetActive(true);
             plate.SetActive(false);
             bowl.TryGetComponent(out bowl bowlScript);

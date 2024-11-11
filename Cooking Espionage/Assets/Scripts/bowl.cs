@@ -15,7 +15,6 @@ public class bowl: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //bow dispenser not working either
         bowlFull = false;
         slop.SetActive(false);
 
