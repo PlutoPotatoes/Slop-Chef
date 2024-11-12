@@ -8,32 +8,25 @@ public class order_screen : MonoBehaviour
     [SerializeField] GameObject item2;
     [SerializeField] GameObject item3;
 
+    public HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        setScreen(null);
-        HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
-        HashSet<string> order1 = new HashSet<string>();
-        order1.Add("gruel");
-        order1.Add("eyeballs");
-        order1.Add("syrup");
-        HashSet<string> order2 = new HashSet<string>();
-        order2.Add("slop_strawberry");
-        order.Add(order2);
-        order.Add(order1);
-        setScreen(order);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void setScreen(HashSet<HashSet<string>> order)
     {
+        //order still aren't setting right, figure it oot
         item1.SetActive(false);
         item2.SetActive(false);
         item3.SetActive(false);
@@ -47,6 +40,7 @@ public class order_screen : MonoBehaviour
         int i = 1;
         foreach(HashSet<string> orderItem in order)
         {
+
             switch (i)
             {
                 case 1:
@@ -76,36 +70,23 @@ public class order_screen : MonoBehaviour
         {
             bowl.SetActive(false);
             plate.SetActive(true);
-            Transform gruel = plate.transform.GetChild(0);
-            //gruel isnt active even though it should be from the line below
-            gruel.gameObject.SetActive(true);
-
+            plate.TryGetComponent(out plate plateScript);
+            plateScript.getGruel();
             if (contents.Contains("eyeballs"))
             {
-                gruel.GetChild(0).gameObject.SetActive(true);
-            }
-            else
-            {
-                gruel.GetChild(0).gameObject.SetActive(false);
+                plateScript.get_topping("eyeballs");
             }
 
             if (contents.Contains("syrup"))
             {
-                gruel.GetChild(2).gameObject.SetActive(true);
-            }
-            else
-            {
-                gruel.GetChild(2).gameObject.SetActive(false);
+                plateScript.get_topping("syrup");
             }
 
             if (contents.Contains("worms"))
             {
-                gruel.GetChild(3).gameObject.SetActive(true);
+                plateScript.get_topping("worms");
             }
-            else
-            {
-                gruel.GetChild(3).gameObject.SetActive(false);
-            }
+
         }
         else
         {

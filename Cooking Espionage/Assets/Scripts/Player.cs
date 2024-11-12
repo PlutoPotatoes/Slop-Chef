@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask NormalinteractLayers;
     [SerializeField] private LayerMask dishHeldLayers;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private Kitchen_Handler kitchen_handler;
 
 
 
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour
 
 
             }
-            if (Input.mouseScrollDelta.y < 0 && objectDistance > 4.5f)
+            if (Input.mouseScrollDelta.y < 0 && objectDistance > 3f)
             {
                 objectGrabPointTransform.SetPositionAndRotation(objectGrabPointTransform.position - (cameraTransform.forward * 0.1f), objectGrabPointTransform.rotation);
                 objectDistance = objectGrabPointTransform.localPosition.z;
@@ -138,6 +139,7 @@ public class Player : MonoBehaviour
                             break;
                         case "Bell":
                             Debug.Log("Bell Noise");
+                            kitchen_handler.order_finished();
                             //send out order function
                             break;
 

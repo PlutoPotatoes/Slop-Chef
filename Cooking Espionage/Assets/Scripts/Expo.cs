@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Expo : MonoBehaviour
+
 {
+
     private HashSet<HashSet<string>> order_contents = new HashSet<HashSet<string>>();
     private HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
 
+    private ArrayList heldObjects = new ArrayList();
+
+
     void Start()
     {
-        new_order();
-        HashSet<string> order1 = new HashSet<string>();
-        order1.Add("gruel");
-        order1.Add("eyeballs");
-        order1.Add("syrup");
-        HashSet<string> order2 = new HashSet<string>();
-        order2.Add("slop_strawberry");
-        order.Add(order2);
-        order.Add(order1);
+
     }
 
-    public void new_order()
+
+    public void set_order(HashSet<HashSet<string>> new_order)
     {
         order_contents.Clear();
+        order.Clear();
+        housekeeping();
+        order = new_order;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,15 +36,16 @@ public class Expo : MonoBehaviour
         {
             other.gameObject.TryGetComponent(out bowl bowlScript);
             order_contents.Add(bowlScript.get_contents());
+            heldObjects.Add(other);
             
         }
         else if (other.tag == "Plate")
         {
             other.gameObject.TryGetComponent(out plate plateScript);
             order_contents.Add(plateScript.get_contents());
+            heldObjects.Add(other);
         }
 
-        Debug.Log(isOrderComplete());
         
 
     }
@@ -54,11 +55,13 @@ public class Expo : MonoBehaviour
         {
             other.TryGetComponent(out bowl bowlScript);
             order_contents.Remove(bowlScript.get_contents());
+            heldObjects.Remove(other);
         }
         else if (other.tag == "Plate")
         {
             other.TryGetComponent(out plate plateScript);
             order_contents.Remove(plateScript.get_contents());
+            heldObjects.Remove(other);
         }
     }
 
@@ -82,6 +85,15 @@ public class Expo : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void housekeeping()
+    {
+        foreach(Collider thing in heldObjects)
+        {
+            Destroy(thing.gameObject);
+        }
+        heldObjects.Clear();
     }
 
 

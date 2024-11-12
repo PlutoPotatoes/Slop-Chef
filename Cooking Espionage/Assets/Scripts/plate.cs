@@ -13,7 +13,6 @@ public class plate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gruel.SetActive(false);
         plateFull = false;
     }
 
@@ -54,7 +53,6 @@ public class plate : MonoBehaviour
                 case "worms":
                     if (!plateContents.Contains("worms"))
                     {
-                        Debug.Log("wormin");
                         gruel.transform.Find("Worms").gameObject.SetActive(true);
                         plateContents.Add("worms");
                     }

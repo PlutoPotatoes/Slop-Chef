@@ -16,7 +16,6 @@ public class bowl: MonoBehaviour
     void Start()
     {
         bowlFull = false;
-        slop.SetActive(false);
 
     }
 
@@ -28,6 +27,7 @@ public class bowl: MonoBehaviour
 
     public void setSlop(Material slopType)
     {
+        
         slop.GetComponent<SpriteRenderer>().material = slopType;
         slop.SetActive(true);
         bowlFull = true;

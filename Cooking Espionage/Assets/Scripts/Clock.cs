@@ -8,17 +8,24 @@ public class Clock : MonoBehaviour
     private float realTime;
     public int displayedTime;
     private bool playing;
+    public bool atZero = false;
 
     void Start()
     {
-
         displayedTime = 0;
         textObject.TryGetComponent(out TextMeshPro text);
         textMesh = text;
-        updateTimer();
-        setTimer(15);
-        playing = true;
+
         
+    }
+
+    public void stop()
+    {
+        playing = false;
+    }
+    public void start()
+    {
+        playing = true;
     }
 
     // Update is called once per frame
@@ -42,6 +49,7 @@ public class Clock : MonoBehaviour
     {
         if (realTime > 0)
         {
+            atZero = false;
             realTime -= Time.deltaTime;
             displayedTime = ((int)realTime);
             textMesh.text = displayedTime.ToString();
@@ -62,7 +70,14 @@ public class Clock : MonoBehaviour
 
 
             }
+
         }
+        else
+        {
+            atZero = true;
+            textMesh.color = new Vector4(1f, 0f, 0f, 0.2f);
+        }
+
     }
 
 }
