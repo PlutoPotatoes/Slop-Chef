@@ -12,16 +12,18 @@ public class Clock : MonoBehaviour
 
     void Start()
     {
-        displayedTime = 0;
+        displayedTime = 99;
         textObject.TryGetComponent(out TextMeshPro text);
         textMesh = text;
-
+        textMesh.text = displayedTime.ToString();
+        playing = false;
         
     }
 
     public void stop()
     {
         playing = false;
+        atZero = false;
     }
     public void start()
     {

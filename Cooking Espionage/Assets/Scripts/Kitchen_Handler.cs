@@ -8,17 +8,19 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject order_screen_object;
     [SerializeField] GameObject expo;
     [SerializeField] GameObject player;
+    [SerializeField] GameObject Dialogue;
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
     Player playerScript;
+    Dialogue dialogueScript;
 
     private int current_day = 1;
     public int total_debt = 2000;
     private float day_timer = 600;
     private int curr_order_cost;
     public bool onBreak;
-    private float day_length = 10f;
+    private float day_length = 5;
     private int break_length = 30;
 
     private HashSet<HashSet<string>> current_order = new HashSet<HashSet<string>>();
@@ -32,6 +34,7 @@ public class Kitchen_Handler : MonoBehaviour
         clockScript = clock.GetComponent<Clock>();
         expoScript = expo.GetComponent<Expo>();
         playerScript = player.GetComponent<Player>();
+        dialogueScript = Dialogue.GetComponent<Dialogue>();
 
         start_day();
     }
@@ -41,11 +44,6 @@ public class Kitchen_Handler : MonoBehaviour
     {
             clockCheck();
             update_timer();
-        
-    }
-
-    private void breaktime_check()
-    {
         
     }
 
@@ -117,13 +115,34 @@ public class Kitchen_Handler : MonoBehaviour
     {
         print("rise and shine");
         print(current_day);
+        StartCoroutine(day_start_routine());
+        
+    }
+
+    IEnumerator day_start_routine()
+    {
+        switch (current_day)
+        {
+            case 1:
+                dialogueScript.playDialogue("start_day1");
+                break;
+            case 2:
+                dialogueScript.playDialogue("start_day2");
+                break;
+        }
+
+        yield return new WaitUntil(() => dialogueScript.textFinished);
+
         day_timer = day_length;
         set_order(generateOrder(current_day));
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
         clockScript.setTimer(10 * current_day);
         onBreak = false;
+
     }
+
+    
 
     public void order_finished() // called when the player hits the bell
     {
@@ -140,7 +159,7 @@ public class Kitchen_Handler : MonoBehaviour
                 }
                 else
                 {
-                    new_day();
+                    start_break();
                     
                 }
 
@@ -150,13 +169,31 @@ public class Kitchen_Handler : MonoBehaviour
             }
             else
             {
-                killPlayer();
+
+                StartCoroutine(wrong_order());
+                clockScript.stop();
             }
         }
         else
         {
             start_day();
         }
+    }
+
+    IEnumerator wrong_order()
+    {
+        dialogueScript.playDialogue("wrong_order");
+        yield return new WaitUntil(() => dialogueScript.textFinished);
+        killPlayer();
+        
+    }
+
+    IEnumerator times_up()
+    {
+        dialogueScript.playDialogue("times_up");
+        yield return new WaitUntil(() => dialogueScript.textFinished);
+        killPlayer();
+
     }
 
     private void next_order()
@@ -174,7 +211,8 @@ public class Kitchen_Handler : MonoBehaviour
         {
             if (clockScript.atZero)
             {
-                killPlayer();
+                StartCoroutine(times_up());
+                clockScript.stop();
             }
         }
         else
@@ -186,7 +224,7 @@ public class Kitchen_Handler : MonoBehaviour
         }
     }
 
-    private void new_day()
+    private void start_break()
     {
         /* play goodnight dialogue
          * fade to black
@@ -196,10 +234,28 @@ public class Kitchen_Handler : MonoBehaviour
          */
         orderScreenScript.setScreen(null);
         onBreak = true;
+        clockScript.stop();
         current_day++;
-        clockScript.setTimer(break_length);
+        StartCoroutine(break_routine());
         print("break time");
 
+
+    }
+
+    IEnumerator break_routine()
+    {
+        switch (current_day)
+        {
+            case 2:
+                dialogueScript.playDialogue("break1");
+                break;
+            case 3:
+                dialogueScript.playDialogue("break2");
+                break;
+        }
+
+        yield return new WaitUntil(() => dialogueScript.textFinished);
+        clockScript.setTimer(break_length);
 
     }
 

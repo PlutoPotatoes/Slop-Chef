@@ -15,7 +15,7 @@ public class order_screen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        setScreen(null);
     }
 
     // Update is called once per frame
