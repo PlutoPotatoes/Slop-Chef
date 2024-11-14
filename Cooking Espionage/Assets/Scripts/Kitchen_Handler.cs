@@ -16,7 +16,7 @@ public class Kitchen_Handler : MonoBehaviour
     Dialogue dialogueScript;
 
     private int current_day = 1;
-    public int total_debt = 2000;
+    public int total_debt = 1;
     private float day_timer = 600;
     private int curr_order_cost;
     public bool onBreak;
@@ -35,7 +35,7 @@ public class Kitchen_Handler : MonoBehaviour
         expoScript = expo.GetComponent<Expo>();
         playerScript = player.GetComponent<Player>();
         dialogueScript = Dialogue.GetComponent<Dialogue>();
-
+        total_debt = 200;
         start_day();
     }
 
@@ -129,6 +129,9 @@ public class Kitchen_Handler : MonoBehaviour
             case 2:
                 dialogueScript.playDialogue("start_day2");
                 break;
+            default:
+                dialogueScript.playDialogue("start_day_regular");
+                break;
         }
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
@@ -152,6 +155,12 @@ public class Kitchen_Handler : MonoBehaviour
             {
                 total_debt -= curr_order_cost;
                 expoScript.housekeeping();
+                print(total_debt);
+                if (total_debt <= 0)
+                {
+                    debt_settled();
+                    return;
+                }
 
                 if (day_timer > 0)
                 {
@@ -162,15 +171,11 @@ public class Kitchen_Handler : MonoBehaviour
                     start_break();
                     
                 }
-
-
-
-                print(total_debt);
             }
             else
             {
 
-                StartCoroutine(wrong_order());
+                StartCoroutine(failure_to_perform("wrong_order"));
                 clockScript.stop();
             }
         }
@@ -180,20 +185,13 @@ public class Kitchen_Handler : MonoBehaviour
         }
     }
 
-    IEnumerator wrong_order()
+    IEnumerator failure_to_perform(string reason)
     {
-        dialogueScript.playDialogue("wrong_order");
+        //reason = times_up or wrong_order
+        dialogueScript.playDialogue(reason);
         yield return new WaitUntil(() => dialogueScript.textFinished);
         killPlayer();
         
-    }
-
-    IEnumerator times_up()
-    {
-        dialogueScript.playDialogue("times_up");
-        yield return new WaitUntil(() => dialogueScript.textFinished);
-        killPlayer();
-
     }
 
     private void next_order()
@@ -211,7 +209,7 @@ public class Kitchen_Handler : MonoBehaviour
         {
             if (clockScript.atZero)
             {
-                StartCoroutine(times_up());
+                StartCoroutine(failure_to_perform("times_up"));
                 clockScript.stop();
             }
         }
@@ -252,6 +250,9 @@ public class Kitchen_Handler : MonoBehaviour
             case 3:
                 dialogueScript.playDialogue("break2");
                 break;
+            default:
+                dialogueScript.playDialogue("start_break_regular");
+                break;
         }
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
@@ -259,4 +260,10 @@ public class Kitchen_Handler : MonoBehaviour
 
     }
 
+    private void debt_settled()
+    {
+        clockScript.stop();
+        dialogueScript.playDialogue("debt_settled");
+        //open the door
+    }
 }
