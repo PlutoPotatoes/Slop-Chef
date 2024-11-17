@@ -9,11 +9,13 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject expo;
     [SerializeField] GameObject player;
     [SerializeField] GameObject Dialogue;
+    [SerializeField] GameObject debt_display;
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
     Player playerScript;
     Dialogue dialogueScript;
+    debt_counter debtScript;
 
     private int current_day = 1;
     public int total_debt = 1;
@@ -35,6 +37,7 @@ public class Kitchen_Handler : MonoBehaviour
         expoScript = expo.GetComponent<Expo>();
         playerScript = player.GetComponent<Player>();
         dialogueScript = Dialogue.GetComponent<Dialogue>();
+        debtScript = debt_display.GetComponent<debt_counter>();
         total_debt = 200;
         start_day();
     }
@@ -68,7 +71,8 @@ public class Kitchen_Handler : MonoBehaviour
         while (num_items > 0)
         {
             HashSet<string> item = new HashSet<string>();
-            string main = order_bases[Random.Range(0, 4)];
+            int base_select = Random.Range(0, 4 + round_number);
+            string main = order_bases[Mathf.Min(base_select, 3)];
             
             item.Add(main);
             curr_order_cost += 2;
@@ -113,8 +117,7 @@ public class Kitchen_Handler : MonoBehaviour
 
     private void start_day()
     {
-        print("rise and shine");
-        print(current_day);
+        
         StartCoroutine(day_start_routine());
         
     }
@@ -141,6 +144,7 @@ public class Kitchen_Handler : MonoBehaviour
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
         clockScript.setTimer(10 * current_day);
+        debtScript.setDebt(total_debt);
         onBreak = false;
 
     }
@@ -154,6 +158,7 @@ public class Kitchen_Handler : MonoBehaviour
             if (expoScript.isOrderComplete())
             {
                 total_debt -= curr_order_cost;
+                debtScript.subtractDebt(curr_order_cost);
                 expoScript.housekeeping();
                 print(total_debt);
                 if (total_debt <= 0)

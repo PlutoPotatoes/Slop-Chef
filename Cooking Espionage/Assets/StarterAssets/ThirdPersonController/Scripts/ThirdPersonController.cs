@@ -304,7 +304,7 @@ namespace StarterAssets
                 {
                     _verticalVelocity = -2f;
                 }
-
+                /*
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
@@ -317,6 +317,7 @@ namespace StarterAssets
                         _animator.SetBool(_animIDJump, true);
                     }
                 }
+                */
 
                 // jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
