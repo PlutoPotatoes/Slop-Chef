@@ -44,6 +44,7 @@ public class Kitchen_Handler : MonoBehaviour
         doorAnimator = door.GetComponent<Animator>();
         dialogueScript.initiateDialogues();
         total_debt = 200;
+        door.transform.position = new Vector3(-1.88116446e-05f, -0.0222699996f, -0.0044300002f);
         start_day();
     }
 

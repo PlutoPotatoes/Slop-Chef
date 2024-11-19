@@ -55,5 +55,13 @@ public class bowl: MonoBehaviour
                 break;
         }
     }
+    
+    public void reset_bowl()
+    {
+        bowlContents.Clear();
+        bowlFull = false;
+        slop.SetActive(false);
+
+    }
 
 }

@@ -71,6 +71,7 @@ public class order_screen : MonoBehaviour
             bowl.SetActive(false);
             plate.SetActive(true);
             plate.TryGetComponent(out plate plateScript);
+            plateScript.reset_plate();
             plateScript.getGruel();
             if (contents.Contains("eyeballs"))
             {
@@ -93,6 +94,7 @@ public class order_screen : MonoBehaviour
             bowl.SetActive(true);
             plate.SetActive(false);
             bowl.TryGetComponent(out bowl bowlScript);
+            bowlScript.reset_bowl();
             if (contents.Contains("slop_regular"))
             {
                 bowlScript.setSlop("slop_regular");

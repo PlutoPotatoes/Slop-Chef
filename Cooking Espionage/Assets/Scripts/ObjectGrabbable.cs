@@ -7,6 +7,7 @@ public class ObjectGrabbable : MonoBehaviour
 
     private Rigidbody objectRigidBody;
     private Transform objectGrabPoint;
+    public LayerMask collideWith;
     private bool held;
     private void Awake()
     {
@@ -43,6 +44,8 @@ public class ObjectGrabbable : MonoBehaviour
             objectRigidBody.isKinematic = false;
         }
     }
+
+    
     public void throwObject(Vector3 throwForce)
     {
         objectRigidBody.isKinematic = false;

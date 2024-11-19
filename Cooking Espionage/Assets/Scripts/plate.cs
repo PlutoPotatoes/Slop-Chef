@@ -61,6 +61,16 @@ public class plate : MonoBehaviour
         }
     }
 
+    public void reset_plate()
+    {
+        plateContents.Clear();
+        gruel.transform.Find("Eyeballs").gameObject.SetActive(false);
+        gruel.transform.Find("Syrup").gameObject.SetActive(false);
+        gruel.transform.Find("Worms").gameObject.SetActive(false);
+
+
+    }
+
     public HashSet<string> get_contents()
     {
         return plateContents;
