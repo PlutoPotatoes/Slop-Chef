@@ -10,12 +10,14 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject Dialogue;
     [SerializeField] GameObject debt_display;
+    [SerializeField] GameObject door;
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
     Player playerScript;
     Dialogue dialogueScript;
     debt_counter debtScript;
+    Animator doorAnimator;
 
     private int current_day = 1;
     public int total_debt = 1;
@@ -24,6 +26,7 @@ public class Kitchen_Handler : MonoBehaviour
     public bool onBreak;
     private float day_length = 5;
     private int break_length = 30;
+    private bool markedForDeath = false;
 
     private HashSet<HashSet<string>> current_order = new HashSet<HashSet<string>>();
     private string[] order_bases = new string[4] { "slop_regular", "slop_strawberry", "slop_bug", "gruel" };
@@ -38,6 +41,8 @@ public class Kitchen_Handler : MonoBehaviour
         playerScript = player.GetComponent<Player>();
         dialogueScript = Dialogue.GetComponent<Dialogue>();
         debtScript = debt_display.GetComponent<debt_counter>();
+        doorAnimator = door.GetComponent<Animator>();
+        dialogueScript.initiateDialogues();
         total_debt = 200;
         start_day();
     }
@@ -139,6 +144,8 @@ public class Kitchen_Handler : MonoBehaviour
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
 
+        doorAnimator.SetBool("isOpen", false);
+        
         day_timer = day_length;
         set_order(generateOrder(current_day));
         expoScript.set_order(current_order);
@@ -153,46 +160,58 @@ public class Kitchen_Handler : MonoBehaviour
 
     public void order_finished() // called when the player hits the bell
     {
-        if (!onBreak)
+        if (!markedForDeath)
         {
-            if (expoScript.isOrderComplete())
+            if (!onBreak)
             {
-                total_debt -= curr_order_cost;
-                debtScript.subtractDebt(curr_order_cost);
-                expoScript.housekeeping();
-                print(total_debt);
-                if (total_debt <= 0)
+                if (expoScript.isOrderComplete())
                 {
-                    debt_settled();
-                    return;
-                }
+                    total_debt -= curr_order_cost;
+                    debtScript.subtractDebt(curr_order_cost);
+                    expoScript.housekeeping();
+                    if (total_debt <= 0)
+                    {
+                        debt_settled();
+                        return;
+                    }
 
-                if (day_timer > 0)
-                {
-                    next_order();
+                    if (day_timer > 0)
+                    {
+                        next_order();
+                    }
+                    else
+                    {
+                        start_break();
+
+                    }
                 }
                 else
                 {
-                    start_break();
-                    
+                    string currItem = "";
+                    foreach (HashSet<string> item in current_order)
+                    {
+                        foreach (string thing in item)
+                        {
+                            currItem += thing + ",";
+                        }
+                        print(currItem);
+                        currItem = "";
+                    }
+
+                    StartCoroutine(failure_to_perform("wrong_order"));
+                    clockScript.stop();
                 }
             }
             else
             {
-
-                StartCoroutine(failure_to_perform("wrong_order"));
-                clockScript.stop();
+                start_day();
             }
-        }
-        else
-        {
-            start_day();
         }
     }
 
     IEnumerator failure_to_perform(string reason)
     {
-        //reason = times_up or wrong_order
+        markedForDeath = true;
         dialogueScript.playDialogue(reason);
         yield return new WaitUntil(() => dialogueScript.textFinished);
         killPlayer();
@@ -222,6 +241,7 @@ public class Kitchen_Handler : MonoBehaviour
         {
             if (clockScript.atZero)
             {
+                
                 start_day();
             }
         }
@@ -229,18 +249,11 @@ public class Kitchen_Handler : MonoBehaviour
 
     private void start_break()
     {
-        /* play goodnight dialogue
-         * fade to black
-         * choices?
-         * new day
-         * 
-         */
         orderScreenScript.setScreen(null);
         onBreak = true;
         clockScript.stop();
         current_day++;
         StartCoroutine(break_routine());
-        print("break time");
 
 
     }
@@ -261,6 +274,7 @@ public class Kitchen_Handler : MonoBehaviour
         }
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
+        doorAnimator.SetBool("isOpen", true);
         clockScript.setTimer(break_length);
 
     }
@@ -269,6 +283,6 @@ public class Kitchen_Handler : MonoBehaviour
     {
         clockScript.stop();
         dialogueScript.playDialogue("debt_settled");
-        //open the door
+        doorAnimator.SetBool("isOpen", true);
     }
 }

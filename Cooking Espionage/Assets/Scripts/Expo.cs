@@ -32,6 +32,8 @@ public class Expo : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        print("object in");
+
         if (other.tag == "Bowl")
         {
             other.gameObject.TryGetComponent(out bowl bowlScript);
@@ -51,6 +53,7 @@ public class Expo : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        print("object out");
         if (other.tag == "Bowl")
         {
             other.TryGetComponent(out bowl bowlScript);
