@@ -11,6 +11,8 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject Dialogue;
     [SerializeField] GameObject debt_display;
     [SerializeField] GameObject door;
+    [SerializeField] GameObject shop_dialogue;
+    [SerializeField] GameObject shop;
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
@@ -18,6 +20,8 @@ public class Kitchen_Handler : MonoBehaviour
     Dialogue dialogueScript;
     debt_counter debtScript;
     Animator doorAnimator;
+    Shop_Dialogue shopDialogueScript;
+    Shop shopScript;
 
     private int current_day = 1;
     public int total_debt = 1;
@@ -32,6 +36,12 @@ public class Kitchen_Handler : MonoBehaviour
     private string[] order_bases = new string[4] { "slop_regular", "slop_strawberry", "slop_bug", "gruel" };
     private string[] toppings = new string[3] { "eyeballs", "worms", "syrup" };
 
+    //item vars
+    private bool hasBeer = false;
+    private bool hasPan = false;
+    private bool hasCig = false;
+    private bool hasCookies = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +52,10 @@ public class Kitchen_Handler : MonoBehaviour
         dialogueScript = Dialogue.GetComponent<Dialogue>();
         debtScript = debt_display.GetComponent<debt_counter>();
         doorAnimator = door.GetComponent<Animator>();
+        shopDialogueScript = shop_dialogue.GetComponent<Shop_Dialogue>();
+        shopScript = shop.GetComponent<Shop>();
         dialogueScript.initiateDialogues();
+        shopDialogueScript.initiateDialogues();
         total_debt = 200;
         door.transform.position = new Vector3(-1.88116446e-05f, -0.0222699996f, -0.0044300002f);
         start_day();
@@ -273,8 +286,9 @@ public class Kitchen_Handler : MonoBehaviour
                 dialogueScript.playDialogue("start_break_regular");
                 break;
         }
-
+        resetItems();
         yield return new WaitUntil(() => dialogueScript.textFinished);
+        playerScript.canBuyItem = true;
         doorAnimator.SetBool("isOpen", true);
         clockScript.setTimer(break_length);
 
@@ -284,6 +298,59 @@ public class Kitchen_Handler : MonoBehaviour
     {
         clockScript.stop();
         dialogueScript.playDialogue("debt_settled");
+        shop.SetActive(false);
         doorAnimator.SetBool("isOpen", true);
+    }
+
+    public void interactWithShop(string item)
+    {
+        playerScript.canMove = false;
+        clockScript.stop();
+        StartCoroutine(shop_interact(item));
+    }
+    
+    IEnumerator shop_interact(string item)
+    {
+        shopDialogueScript.playDialogue(item);
+        yield return new WaitUntil(() => shopDialogueScript.interactionFinished);
+        playerScript.canMove = true;
+        clockScript.start();
+
+    }
+
+    public void buy_item(string item)
+    {
+        shopScript.buyItem(item);
+        playerScript.canBuyItem = false;
+        doorAnimator.SetBool("isOpen", false);
+        switch (item)
+        {
+            case "cigs":
+                hasCig = true;
+                break;
+            case "beer":
+                hasBeer = true;
+                break;
+            case "pan":
+                hasPan = true;
+                break;
+            case "cookies":
+                hasCookies = true;
+                break;
+        }
+
+    }
+
+    public void dontGetGreedy()
+    {
+        dialogueScript.playDialogue("greedy_worker");
+    }
+
+    public void resetItems()
+    {
+        hasCig = false;
+        hasBeer = false;
+        hasCookies = false;
+        hasPan = false;
     }
 }

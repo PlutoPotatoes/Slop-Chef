@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
     private float throwStrength = 500.0f;
     private float objectDistance;
     public bool canMove;
+    public bool canBuyItem = true;
+
+    
 
 
 
@@ -52,7 +55,7 @@ public class Player : MonoBehaviour
     {
         if (canMove)
         {
-            if (Input.GetKeyDown("e") && interactCooldown <= 0)
+            if (canMove && Input.GetKeyDown("e") && interactCooldown <= 0)
             {
                 Interact();
             }
@@ -140,7 +143,9 @@ public class Player : MonoBehaviour
                         case "Bell":
                             Debug.Log("Bell Noise");
                             kitchen_handler.order_finished();
-                            //send out order function
+                            break;
+                        case "Shop Item":
+                            shopInteract(hit_info);
                             break;
 
                     }
@@ -260,4 +265,20 @@ public class Player : MonoBehaviour
         playerAnimator.enabled = false;
         canMove = false;
     }
+    
+    private void shopInteract(RaycastHit hit_info)
+    {
+        if (canBuyItem)
+        {
+            shop_item item = hit_info.transform.GetComponent<shop_item>();
+            kitchen_handler.interactWithShop(item.item_type);
+        }
+        else
+        {
+            kitchen_handler.dontGetGreedy();
+        }
+        
+    }
+
+    
 }

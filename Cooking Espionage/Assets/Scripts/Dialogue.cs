@@ -50,6 +50,9 @@ public class Dialogue : MonoBehaviour
 
         string[] debt_settled = { "<color=yellow>Congratulations Citizen<color=white> <br>You have officially settled your debt with <color=#ADD8E6>CompanyIncorperated<color=white>", "You are free to go... <br><color=red>DO NOT LET THIS HAPPEN AGAIN<color=white>" };
         dialogues.Add("debt_settled", debt_settled);
+
+        string[] greedy_worker = { "<color=red> DON'T GET GREEDY" };
+        dialogues.Add("greedy_worker", greedy_worker);
     }
 
     // Update is called once per frame

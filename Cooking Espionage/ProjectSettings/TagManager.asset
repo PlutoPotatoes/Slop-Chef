@@ -17,6 +17,8 @@ TagManager:
   - Topping_Dispenser
   - Expo
   - Bell
+  - Shop Item
+  - Shop
   layers:
   - Default
   - TransparentFX
@@ -29,8 +31,8 @@ TagManager:
   - Player
   - Dishes
   - Toppings
-  - 
-  - 
+  - Shop Item
+  - Shop
   - 
   - 
   - 
