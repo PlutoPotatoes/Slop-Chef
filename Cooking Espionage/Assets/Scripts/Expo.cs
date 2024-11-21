@@ -5,7 +5,7 @@ using UnityEngine;
 public class Expo : MonoBehaviour
 
 {
-
+    [SerializeField] GameObject cookies;
     private HashSet<HashSet<string>> order_contents = new HashSet<HashSet<string>>();
     private HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
 
@@ -99,5 +99,13 @@ public class Expo : MonoBehaviour
         heldObjects.Clear();
     }
 
+    public void show_cookies()
+    {
+        cookies.SetActive(true);
+    }
+    public void hide_cookies()
+    {
+        cookies.SetActive(false);
+    }
 
 }

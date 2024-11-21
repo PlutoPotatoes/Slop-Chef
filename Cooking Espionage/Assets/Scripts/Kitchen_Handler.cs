@@ -13,6 +13,7 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject door;
     [SerializeField] GameObject shop_dialogue;
     [SerializeField] GameObject shop;
+    [SerializeField] GameObject expoDoor;
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
@@ -22,6 +23,8 @@ public class Kitchen_Handler : MonoBehaviour
     Animator doorAnimator;
     Shop_Dialogue shopDialogueScript;
     Shop shopScript;
+    Animator expoDoorAnimator;
+    
 
     private int current_day = 1;
     public int total_debt = 1;
@@ -56,8 +59,11 @@ public class Kitchen_Handler : MonoBehaviour
         shopScript = shop.GetComponent<Shop>();
         dialogueScript.initiateDialogues();
         shopDialogueScript.initiateDialogues();
+        expoDoorAnimator = expoDoor.GetComponent<Animator>();
         total_debt = 200;
         door.transform.position = new Vector3(-1.88116446e-05f, -0.0222699996f, -0.0044300002f);
+        expoDoor.transform.position = new Vector3(-3.7888844f, 1.29642832f, 0.126666918f);
+        resetItems();
         start_day();
     }
 
@@ -159,12 +165,10 @@ public class Kitchen_Handler : MonoBehaviour
         yield return new WaitUntil(() => dialogueScript.textFinished);
 
         doorAnimator.SetBool("isOpen", false);
+        expoDoorAnimator.SetBool("isOpen", true);
         
         day_timer = day_length;
-        set_order(generateOrder(current_day));
-        expoScript.set_order(current_order);
-        orderScreenScript.setScreen(current_order);
-        clockScript.setTimer(10 * current_day);
+        next_order();
         debtScript.setDebt(total_debt);
         onBreak = false;
 
@@ -201,19 +205,47 @@ public class Kitchen_Handler : MonoBehaviour
                 }
                 else
                 {
-                    string currItem = "";
-                    foreach (HashSet<string> item in current_order)
+                    if (hasCookies)
                     {
-                        foreach (string thing in item)
+                        int customerLuck = Random.Range(1,11);
+                        print(customerLuck);
+                        if(customerLuck>7)
                         {
-                            currItem += thing + ",";
+                            //play cookie sparkle particles
+                            print("got lucky this time");
+                            total_debt -= curr_order_cost;
+                            debtScript.subtractDebt(curr_order_cost);
+                            expoScript.housekeeping();
+                            if (total_debt <= 0)
+                            {
+                                debt_settled();
+                                return;
+                            }
+
+                            if (day_timer > 0)
+                            {
+                                next_order();
+                            }
+                            else
+                            {
+                                start_break();
+
+                            }
+
                         }
-                        print(currItem);
-                        currItem = "";
+                        else
+                        {
+                            StartCoroutine(failure_to_perform("wrong_order"));
+                            clockScript.stop();
+                        }
+                    }
+                    else
+                    {
+                        StartCoroutine(failure_to_perform("wrong_order"));
+                        clockScript.stop();
                     }
 
-                    StartCoroutine(failure_to_perform("wrong_order"));
-                    clockScript.stop();
+                    
                 }
             }
             else
@@ -226,6 +258,7 @@ public class Kitchen_Handler : MonoBehaviour
     IEnumerator failure_to_perform(string reason)
     {
         markedForDeath = true;
+        expoDoorAnimator.SetBool("isOpen", false);
         dialogueScript.playDialogue(reason);
         yield return new WaitUntil(() => dialogueScript.textFinished);
         killPlayer();
@@ -238,7 +271,7 @@ public class Kitchen_Handler : MonoBehaviour
         set_order(generateOrder(current_day));
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
-        clockScript.setTimer(15 * current_day);
+        clockScript.setTimer(10 + (5*(current_order.Count-1)));
     }
 
     private void clockCheck()
@@ -287,6 +320,8 @@ public class Kitchen_Handler : MonoBehaviour
                 break;
         }
         resetItems();
+        shopScript.reset_store();
+        expoDoorAnimator.SetBool("isOpen", false);
         yield return new WaitUntil(() => dialogueScript.textFinished);
         playerScript.canBuyItem = true;
         doorAnimator.SetBool("isOpen", true);
@@ -300,6 +335,7 @@ public class Kitchen_Handler : MonoBehaviour
         dialogueScript.playDialogue("debt_settled");
         shop.SetActive(false);
         doorAnimator.SetBool("isOpen", true);
+        expoDoorAnimator.SetBool("isOpen", false);
     }
 
     public void interactWithShop(string item)
@@ -327,6 +363,7 @@ public class Kitchen_Handler : MonoBehaviour
         {
             case "cigs":
                 hasCig = true;
+                clockScript.cigModifier = 0.7f;
                 break;
             case "beer":
                 hasBeer = true;
@@ -336,6 +373,7 @@ public class Kitchen_Handler : MonoBehaviour
                 break;
             case "cookies":
                 hasCookies = true;
+                expoScript.show_cookies();
                 break;
         }
 
@@ -349,8 +387,10 @@ public class Kitchen_Handler : MonoBehaviour
     public void resetItems()
     {
         hasCig = false;
+        clockScript.cigModifier = 1;
         hasBeer = false;
         hasCookies = false;
+        expoScript.hide_cookies();
         hasPan = false;
     }
 }

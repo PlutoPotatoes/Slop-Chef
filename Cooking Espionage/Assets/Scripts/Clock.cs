@@ -9,6 +9,7 @@ public class Clock : MonoBehaviour
     public int displayedTime;
     private bool playing;
     public bool atZero = false;
+    public float cigModifier = 1;
 
     void Start()
     {
@@ -52,7 +53,7 @@ public class Clock : MonoBehaviour
         if (realTime > 0)
         {
             atZero = false;
-            realTime -= Time.deltaTime;
+            realTime -= (Time.deltaTime*cigModifier);
             displayedTime = ((int)realTime);
             textMesh.text = displayedTime.ToString();
             switch (displayedTime)

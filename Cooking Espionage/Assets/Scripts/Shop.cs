@@ -45,4 +45,13 @@ public class Shop : MonoBehaviour
                 break;
         }
     }
+
+    public void reset_store()
+    {
+        cigs.SetActive(true);
+        beer.SetActive(true);
+        cookies.SetActive(true);
+        pan.SetActive(true);
+        gameObject.SetActive(true);
+    }
 }
