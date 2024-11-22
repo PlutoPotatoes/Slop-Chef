@@ -14,6 +14,7 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject shop_dialogue;
     [SerializeField] GameObject shop;
     [SerializeField] GameObject expoDoor;
+    [SerializeField] GameObject Customer;
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
@@ -24,6 +25,8 @@ public class Kitchen_Handler : MonoBehaviour
     Shop_Dialogue shopDialogueScript;
     Shop shopScript;
     Animator expoDoorAnimator;
+    Animator customerAnimator;
+    customer_handler customerScript;
     
 
     private int current_day = 1;
@@ -31,7 +34,7 @@ public class Kitchen_Handler : MonoBehaviour
     private float day_timer = 600;
     private int curr_order_cost;
     public bool onBreak;
-    private float day_length = 5;
+    private float day_length = 60;
     private int break_length = 30;
     private bool markedForDeath = false;
 
@@ -44,6 +47,7 @@ public class Kitchen_Handler : MonoBehaviour
     private bool hasPan = false;
     private bool hasCig = false;
     private bool hasCookies = false;
+    private GameObject currCustomer;
 
     // Start is called before the first frame update
     void Start()
@@ -140,6 +144,17 @@ public class Kitchen_Handler : MonoBehaviour
         playerScript.kill_player();
     }
 
+    private void new_customer()
+    {
+        currCustomer = Instantiate(Customer);
+        currCustomer.SetActive(true);
+        customerScript = currCustomer.GetComponent<customer_handler>();
+        customerAnimator = currCustomer.GetComponent<Animator>();
+        customerScript.setSkin();
+        customerAnimator.SetTrigger("newCustomer");
+        customerAnimator.ResetTrigger("walkAway");
+        
+    }
     private void start_day()
     {
         
@@ -166,6 +181,7 @@ public class Kitchen_Handler : MonoBehaviour
 
         doorAnimator.SetBool("isOpen", false);
         expoDoorAnimator.SetBool("isOpen", true);
+
         
         day_timer = day_length;
         next_order();
@@ -267,7 +283,12 @@ public class Kitchen_Handler : MonoBehaviour
 
     private void next_order()
     {
-
+        if (customerAnimator)
+        {
+            customerAnimator.SetTrigger("walkAway");
+            customerAnimator.ResetTrigger("newCustomer");
+        }
+        new_customer();
         set_order(generateOrder(current_day));
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
@@ -296,6 +317,8 @@ public class Kitchen_Handler : MonoBehaviour
 
     private void start_break()
     {
+        customerAnimator.SetTrigger("walkAway");
+        customerAnimator.ResetTrigger("newCustomer");
         orderScreenScript.setScreen(null);
         onBreak = true;
         clockScript.stop();
