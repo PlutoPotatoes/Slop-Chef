@@ -37,6 +37,7 @@ public class Kitchen_Handler : MonoBehaviour
     private float day_length = 60;
     private int break_length = 30;
     private bool markedForDeath = false;
+    public bool introPlaying;
 
     private HashSet<HashSet<string>> current_order = new HashSet<HashSet<string>>();
     private string[] order_bases = new string[4] { "slop_regular", "slop_strawberry", "slop_bug", "gruel" };
@@ -94,6 +95,7 @@ public class Kitchen_Handler : MonoBehaviour
     }
     private HashSet<HashSet<string>> generateOrder(int round_number)
     {
+
         int num_items = Random.Range(1,round_number+1);
         curr_order_cost = 0;
         HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
@@ -129,13 +131,16 @@ public class Kitchen_Handler : MonoBehaviour
                     break;
                 }
             }
-            if (!repeat)
+            if (!repeat && !current_order.Contains(item))
             {
                 num_items--;
                 order.Add(item);
             }
             
         }
+
+
+        curr_order_cost = hasBeer ? (int)((float)curr_order_cost * 1.5f) : curr_order_cost;
         return order;
     }
 
@@ -168,6 +173,7 @@ public class Kitchen_Handler : MonoBehaviour
         {
             case 1:
                 dialogueScript.playDialogue("start_day1");
+                introPlaying = true;
                 break;
             case 2:
                 dialogueScript.playDialogue("start_day2");
@@ -178,6 +184,7 @@ public class Kitchen_Handler : MonoBehaviour
         }
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
+        introPlaying = false;
 
         doorAnimator.SetBool("isOpen", false);
         expoDoorAnimator.SetBool("isOpen", true);
@@ -190,11 +197,14 @@ public class Kitchen_Handler : MonoBehaviour
 
     }
 
-    
+    public void skip_order()
+    {
+        next_order();
+    }
 
     public void order_finished() // called when the player hits the bell
     {
-        if (!markedForDeath)
+        if (!markedForDeath && !introPlaying)
         {
             if (!onBreak)
             {
@@ -393,6 +403,7 @@ public class Kitchen_Handler : MonoBehaviour
                 break;
             case "pan":
                 hasPan = true;
+                expoScript.show_pan();
                 break;
             case "cookies":
                 hasCookies = true;
@@ -414,6 +425,7 @@ public class Kitchen_Handler : MonoBehaviour
         hasBeer = false;
         hasCookies = false;
         expoScript.hide_cookies();
-        hasPan = false;
+        hasPan = true;
+        expoScript.show_pan();
     }
 }

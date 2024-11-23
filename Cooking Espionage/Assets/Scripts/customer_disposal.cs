@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class customer_disposal : MonoBehaviour
 {
+    [SerializeField] GameObject expo;
+    Expo expoScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+         expoScript = expo.GetComponent<Expo>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x < -3.2)
-        {
-            Destroy(gameObject);
-        }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        print("got one");
-        Destroy(other.gameObject);
+        if (other.tag == "Pan")
+        {
+            expoScript.hide_pan();
+        }
     }
 }

@@ -8,13 +8,16 @@ public class customer_handler : MonoBehaviour
     [SerializeField] GameObject Customer2;
     [SerializeField] GameObject Customer3;
     [SerializeField] GameObject Customer4;
-    private GameObject[] skins = new GameObject[4];
+    [SerializeField] Rigidbody rb;
+    [SerializeField] Kitchen_Handler kitchen_handler;
+    
 
     // Start is called before the first frame update
     void Start()
     {
 
         setSkin();
+        
 
     }
 
@@ -29,25 +32,41 @@ public class customer_handler : MonoBehaviour
         {
             case 0:
                 Customer1.SetActive(true);
+
                 break;
             case 1:
                 Customer2.SetActive(true);
+
                 break;
             case 2:
                 Customer3.SetActive(true);
+
                 break;
             case 3:
                 Customer4.SetActive(true);
                 break;
         }
     }
-    /*
-    public void reset_pos()
+
+    private void OnCollisionEnter(Collision collision)
     {
-        transform.SetPositionAndRotation(new Vector3(7.51399994f, 3.67000008f, -44.4700012f), transform.rotation);
-        setSkin();
+        if(collision.collider.tag == "Pan")
+        {
+            print("pan hit");
+            StartCoroutine(killCustomer());
+
+        }
+    }
+
+    IEnumerator killCustomer()
+    {
+        rb.isKinematic = false;
+        rb.AddForce(new Vector3(0,0,1000), ForceMode.Impulse);
+        yield return new WaitForSeconds(2f);
+        kitchen_handler.skip_order();
+        Destroy(gameObject);
+        
 
     }
-    */
-    
+
 }

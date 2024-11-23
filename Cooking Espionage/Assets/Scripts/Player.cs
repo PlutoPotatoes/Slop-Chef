@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
 
                 if (hit_info.collider != null)
                 {
+                    print(hit_info.collider.gameObject);
                     switch (hit_info.collider.tag)
                     {
                         case "Ingredient":
@@ -146,6 +147,10 @@ public class Player : MonoBehaviour
                             break;
                         case "Shop Item":
                             shopInteract(hit_info);
+                            break;
+                        case "Pan":
+                            onInteract(hit_info);
+                            hit_info.transform.tag = "Pan (held)";
                             break;
 
                     }
@@ -217,6 +222,9 @@ public class Player : MonoBehaviour
                 }
             }
 
+        }else if (heldObject.tag == "Pan (held)")
+        {
+            heldObject.tag = "Pan";
         }
         if (heldObject != null)
         {
@@ -254,6 +262,10 @@ public class Player : MonoBehaviour
     void throwObject()
     {
         Vector3 throwForce = cameraTransform.forward * throwStrength;
+        if(heldObject.tag == "Pan (held)")
+        {
+            heldObject.tag = "Pan";
+        }
         heldObject.Grab(null);
         heldObject.throwObject(throwForce);
         heldObject = null;

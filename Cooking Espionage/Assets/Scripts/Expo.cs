@@ -6,6 +6,8 @@ public class Expo : MonoBehaviour
 
 {
     [SerializeField] GameObject cookies;
+    [SerializeField] GameObject pan;
+    [SerializeField] Transform pan_spawn;
     private HashSet<HashSet<string>> order_contents = new HashSet<HashSet<string>>();
     private HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
 
@@ -14,7 +16,8 @@ public class Expo : MonoBehaviour
 
     void Start()
     {
-
+        hide_cookies();
+        show_pan();
     }
 
 
@@ -28,11 +31,10 @@ public class Expo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        panCheck();
     }
     private void OnTriggerEnter(Collider other)
     {
-        print("object in");
 
         if (other.tag == "Bowl")
         {
@@ -53,7 +55,6 @@ public class Expo : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        print("object out");
         if (other.tag == "Bowl")
         {
             other.TryGetComponent(out bowl bowlScript);
@@ -108,4 +109,21 @@ public class Expo : MonoBehaviour
         cookies.SetActive(false);
     }
 
+    public void show_pan()
+    {
+        pan.SetActive(true);
+        pan.transform.SetPositionAndRotation(pan_spawn.position, pan.transform.rotation);
+    }
+    public void hide_pan()
+    {
+        pan.SetActive(false);
+    }
+    private void panCheck()
+    {
+        if(pan.transform.position.x > -3.4f && pan.transform.position.y < -3)
+        {
+            hide_pan();
+        }
+        
+    }
 }
