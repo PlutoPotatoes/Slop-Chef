@@ -53,6 +53,9 @@ public class Dialogue : MonoBehaviour
 
         string[] greedy_worker = { "<color=red> DON'T GET GREEDY" };
         dialogues.Add("greedy_worker", greedy_worker);
+
+        string[] complaint_terminated = { "Complaint terminated....<br><color=red>BACK TO WORK." };
+        dialogues.Add("complaint_terminated", complaint_terminated);
     }
 
     // Update is called once per frame
@@ -106,5 +109,12 @@ public class Dialogue : MonoBehaviour
             gameObject.SetActive(false);
             textFinished = true;
         }
+    }
+
+    public void clear()
+    {
+        StopAllCoroutines();
+        textFinished = true;
+        gameObject.SetActive(false);
     }
 }

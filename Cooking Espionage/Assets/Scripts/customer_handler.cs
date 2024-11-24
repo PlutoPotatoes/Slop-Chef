@@ -61,9 +61,9 @@ public class customer_handler : MonoBehaviour
     IEnumerator killCustomer()
     {
         rb.isKinematic = false;
-        rb.AddForce(new Vector3(0,0,1000), ForceMode.Impulse);
+        rb.AddForce(new Vector3(0,0,500), ForceMode.Impulse);
         yield return new WaitForSeconds(2f);
-        kitchen_handler.skip_order();
+        kitchen_handler.pan_hit();
         Destroy(gameObject);
         
 

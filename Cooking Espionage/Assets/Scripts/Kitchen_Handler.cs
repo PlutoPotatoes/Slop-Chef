@@ -281,14 +281,40 @@ public class Kitchen_Handler : MonoBehaviour
         }
     }
 
+    public void pan_hit()
+    {
+        if (markedForDeath)
+        {
+            markedForDeath = false;
+            dialogueScript.clear();
+            StartCoroutine(complaint_terminated());
+
+        }
+        else
+        {
+            next_order();
+        }
+    }
+    IEnumerator complaint_terminated()
+    {
+        dialogueScript.playDialogue("complaint_terminated");
+        yield return new WaitUntil(() => dialogueScript.textFinished);
+        next_order();
+
+
+    }
     IEnumerator failure_to_perform(string reason)
     {
         markedForDeath = true;
-        expoDoorAnimator.SetBool("isOpen", false);
         dialogueScript.playDialogue(reason);
+        orderScreenScript.setScreen(null);
         yield return new WaitUntil(() => dialogueScript.textFinished);
-        killPlayer();
-        
+        if (markedForDeath)
+        {
+            expoDoorAnimator.SetBool("isOpen", false);
+            killPlayer();
+        }
+
     }
 
     private void next_order()
