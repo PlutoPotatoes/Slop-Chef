@@ -69,6 +69,14 @@ public class Kitchen_Handler : MonoBehaviour
         door.transform.position = new Vector3(-1.88116446e-05f, -0.0222699996f, -0.0044300002f);
         expoDoor.transform.position = new Vector3(-3.7888844f, 1.29642832f, 0.126666918f);
         resetItems();
+        StartCoroutine(firstDayStart());
+        
+    }
+
+    IEnumerator firstDayStart()
+    {
+        Cursor.visible = false;
+        yield return new WaitForSeconds(5);
         start_day();
     }
 
@@ -328,7 +336,7 @@ public class Kitchen_Handler : MonoBehaviour
         set_order(generateOrder(current_day));
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
-        clockScript.setTimer(10 + (5*(current_order.Count-1)));
+        clockScript.setTimer(5* Mathf.Max((4-current_day), 1)+ (5*(current_order.Count-1)));
     }
 
     private void clockCheck()
