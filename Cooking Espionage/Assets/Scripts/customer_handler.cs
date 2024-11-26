@@ -21,6 +21,11 @@ public class customer_handler : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        //deleteCheck();
+    }
+
     public void setSkin()
     {
         Customer1.SetActive(false);
@@ -69,4 +74,11 @@ public class customer_handler : MonoBehaviour
 
     }
 
+    void deleteCheck()
+    {
+        if (transform.position.x < 4)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
