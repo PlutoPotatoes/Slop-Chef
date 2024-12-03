@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectGrabbable : MonoBehaviour
 {
-
+    
     private Rigidbody objectRigidBody;
     private Transform objectGrabPoint;
     public LayerMask collideWith;
