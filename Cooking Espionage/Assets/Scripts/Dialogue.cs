@@ -26,13 +26,14 @@ public class Dialogue : MonoBehaviour
             "Ready....? Too bad. <color=red>WERE OPEN.<color=white>" };
         dialogues.Add("start_day1", start_script);
 
-        string[] break_script1 = { "Congratulation, you made it through your first shift. Please Enjoy this <color=yellow>complementary 60 second break<color=white>",
+        string[] break_script1 = { "Congratulation, you made it through your first shift. Please Enjoy this <color=yellow>complementary 30 second break<color=white>",
+            "The refreshment cart is on it's way to the door behind you, your employment package allows you <color=red>ONE<color=white> item",
             "Should you feel the need to get back to work, simply hit the bell to call a customer"};
         dialogues.Add("break1", break_script1);
 
         string[] start_day2 = { "<color=red>BREAK IS OVER.", "<color=white>Our employees are <color=red>HUNGRY... BACK TO WORK<color=white>" };
         dialogues.Add("start_day2", start_day2);
-        string[] break_script2 = { "Second shift complete.", "Beginning your <color=yellow>complementary 60 break<color=white>" };
+        string[] break_script2 = { "Second shift complete.", "Beginning your <color=yellow>complementary 30 break<color=white>" };
         dialogues.Add("break2", break_script2);
 
         string[] wrong_order = { "<color=red>UH OH CITIZEN <color=white> <br><br>We have an unhappy customer who recieved the wrong order.", "Prepare for <color=red>TERMINATION<color=white>" };
@@ -56,6 +57,17 @@ public class Dialogue : MonoBehaviour
 
         string[] complaint_terminated = { "Complaint terminated....<br><color=red>BACK TO WORK." };
         dialogues.Add("complaint_terminated", complaint_terminated);
+
+        
+    }
+
+    public void playEndCredits()
+    {
+        string[] end_credits = { "Thank You For Playing " +
+                "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>" +
+                "Created By: Ryan Morrell<br>Music By: Bee Shoemaker<br><br>press R to Restart<br>press Space to Quit" };
+        dialogues.Add("end_credits", end_credits);
+        playDialogue("end_credits");
     }
 
     // Update is called once per frame

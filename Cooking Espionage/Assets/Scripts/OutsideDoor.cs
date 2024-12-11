@@ -5,15 +5,17 @@ using UnityEngine;
 public class OutsideDoor : MonoBehaviour
 {
     [SerializeField] Animator doorAnimator;
+    [SerializeField] Kitchen_Handler kitchen_handler;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        doorAnimator.SetBool("InOpenZone", true); 
+        doorAnimator.SetBool("InOpenZone", true);
+        kitchen_handler.play_final_cutscene();
     }
     void Start()
     {
-        
+        transform.position = new Vector3(-1.88116446e-05f, -0.0844599977f, -0.00212999992f);
     }
 
     // Update is called once per frame

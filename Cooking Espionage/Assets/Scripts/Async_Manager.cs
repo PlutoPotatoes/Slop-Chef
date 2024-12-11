@@ -13,11 +13,19 @@ public class Async_Manager : MonoBehaviour
     [SerializeField] private Slider loadingSlider;
 
 
+
+
+
     private void Start()
     {
         loadingScreen.SetActive(false);
-        mainMenu.SetActive(true); 
+        mainMenu.SetActive(true);
+
+
+
+
     }
+
     public void LoadLevel(string levelToLoad)
     {
         mainMenu.SetActive(false);

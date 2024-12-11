@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class Kitchen_Handler : MonoBehaviour
 {
@@ -15,6 +17,17 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] GameObject shop;
     [SerializeField] GameObject expoDoor;
     [SerializeField] GameObject Customer;
+    [SerializeField] Camera cutSceneCamera;
+    [SerializeField] GameObject cutsceneTimeline;
+    [SerializeField] Dialogue credits;
+    [SerializeField] GameObject city;
+    [SerializeField] GameObject gameOverText;
+    [SerializeField] RenderTexture mainCameraTexture;
+    [SerializeField] RenderTexture cutsceneTexture;
+    [SerializeField] Canvas playerCanvas;
+    [SerializeField] Canvas cutsceneCanvas;
+
+
     order_screen orderScreenScript;
     Clock clockScript;
     Expo expoScript;
@@ -27,6 +40,7 @@ public class Kitchen_Handler : MonoBehaviour
     Animator expoDoorAnimator;
     Animator customerAnimator;
     customer_handler customerScript;
+    PlayableDirector cutsceneDirector;
     
 
     private int current_day = 1;
@@ -38,6 +52,9 @@ public class Kitchen_Handler : MonoBehaviour
     private int break_length = 30;
     private bool markedForDeath = false;
     public bool introPlaying;
+    private bool cutsceneStarted = false;
+    private bool cutsceneFinished = false;
+    private bool isDead = false;
 
     private HashSet<HashSet<string>> current_order = new HashSet<HashSet<string>>();
     private string[] order_bases = new string[4] { "slop_regular", "slop_strawberry", "slop_bug", "gruel" };
@@ -65,17 +82,23 @@ public class Kitchen_Handler : MonoBehaviour
         dialogueScript.initiateDialogues();
         shopDialogueScript.initiateDialogues();
         expoDoorAnimator = expoDoor.GetComponent<Animator>();
+        cutsceneDirector = cutsceneTimeline.GetComponent<PlayableDirector>();
         total_debt = 200;
         door.transform.position = new Vector3(-1.88116446e-05f, -0.0222699996f, -0.0044300002f);
         expoDoor.transform.position = new Vector3(-3.7888844f, 1.29642832f, 0.126666918f);
+        city.SetActive(false);
+        gameOverText.SetActive(false);
         resetItems();
         StartCoroutine(firstDayStart());
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 
     IEnumerator firstDayStart()
     {
         Cursor.visible = false;
+        introPlaying = true;
         yield return new WaitForSeconds(5);
         start_day();
     }
@@ -83,10 +106,12 @@ public class Kitchen_Handler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            clockCheck();
-            update_timer();
+        clockCheck();
+        update_timer();
+        restartCheck();
         
     }
+
 
     private void set_order(HashSet<HashSet<string>> order) 
     {
@@ -181,7 +206,7 @@ public class Kitchen_Handler : MonoBehaviour
         {
             case 1:
                 dialogueScript.playDialogue("start_day1");
-                introPlaying = true;
+                
                 break;
             case 2:
                 dialogueScript.playDialogue("start_day2");
@@ -320,7 +345,9 @@ public class Kitchen_Handler : MonoBehaviour
         if (markedForDeath)
         {
             expoDoorAnimator.SetBool("isOpen", false);
+            gameOverText.SetActive(true);
             killPlayer();
+            isDead = true;
         }
 
     }
@@ -403,6 +430,7 @@ public class Kitchen_Handler : MonoBehaviour
         shop.SetActive(false);
         doorAnimator.SetBool("isOpen", true);
         expoDoorAnimator.SetBool("isOpen", false);
+        city.SetActive(true);
     }
 
     public void interactWithShop(string item)
@@ -461,5 +489,59 @@ public class Kitchen_Handler : MonoBehaviour
         expoScript.hide_cookies();
         hasPan = true;
         expoScript.show_pan();
+    }
+
+    public void play_final_cutscene()
+    {
+        StopAllCoroutines();
+        playerScript.canMove = false;
+        player.gameObject.SetActive(false);
+        city.SetActive(true);
+        cutsceneTimeline.SetActive(true);
+        cutSceneCamera.gameObject.SetActive(true);
+        cutsceneDirector.Play();
+        cutsceneDirector.stopped += OnPlayableDirectorStopped;
+
+        return;
+    }
+
+    private void restartCheck()
+    {
+        if (cutsceneFinished || isDead)
+        {
+            if (Input.GetKeyDown("r"))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                SceneManager.LoadSceneAsync("MainGameplayScene");
+            }
+            if (Input.GetKeyDown("space"))
+            {
+                /*Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+                releaseTextures();
+                */
+                Application.Quit();
+            }
+        }
+    }
+    void OnPlayableDirectorStopped(PlayableDirector aDirector)
+    {
+        credits.playEndCredits();
+        cutsceneFinished = true;
+        cutsceneDirector.stopped -= OnPlayableDirectorStopped;
+        
+
+    }
+
+    void releaseTextures()
+    {
+        
+        mainCameraTexture.Release();
+        cutsceneTexture.Release();
+        playerCanvas.gameObject.SetActive(false);
+        cutsceneCanvas.gameObject.SetActive(false);
+        Destroy(player);
+        Destroy(cutsceneTimeline);
     }
 }
