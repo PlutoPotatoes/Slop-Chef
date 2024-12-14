@@ -83,4 +83,9 @@ public class Clock : MonoBehaviour
 
     }
 
+    public bool isPlaying()
+    {
+        return playing;
+    }
+
 }

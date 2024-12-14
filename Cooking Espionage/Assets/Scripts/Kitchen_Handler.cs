@@ -202,11 +202,11 @@ public class Kitchen_Handler : MonoBehaviour
 
     IEnumerator day_start_routine()
     {
+        clockScript.stop();
         switch (current_day)
         {
             case 1:
-                dialogueScript.playDialogue("start_day1");
-                
+                dialogueScript.playDialogue("start_day1"); 
                 break;
             case 2:
                 dialogueScript.playDialogue("start_day2");
@@ -248,6 +248,7 @@ public class Kitchen_Handler : MonoBehaviour
                     expoScript.housekeeping();
                     if (total_debt <= 0)
                     {
+                        debtScript.setDebt(0);
                         debt_settled();
                         return;
                     }
@@ -331,6 +332,7 @@ public class Kitchen_Handler : MonoBehaviour
     IEnumerator complaint_terminated()
     {
         dialogueScript.playDialogue("complaint_terminated");
+        clockScript.stop();
         yield return new WaitUntil(() => dialogueScript.textFinished);
         next_order();
 
@@ -341,6 +343,7 @@ public class Kitchen_Handler : MonoBehaviour
         markedForDeath = true;
         dialogueScript.playDialogue(reason);
         orderScreenScript.setScreen(null);
+        clockScript.stop();
         yield return new WaitUntil(() => dialogueScript.textFinished);
         if (markedForDeath)
         {
@@ -354,6 +357,7 @@ public class Kitchen_Handler : MonoBehaviour
 
     private void next_order()
     {
+        clockScript.stop();
         if (customerAnimator)
         {
             customerAnimator.SetTrigger("walkAway");
@@ -361,27 +365,40 @@ public class Kitchen_Handler : MonoBehaviour
         }
         new_customer();
         set_order(generateOrder(current_day));
+        StartCoroutine(new_order());
+        
+    }
+
+    IEnumerator new_order()
+    {
+        orderScreenScript.setScreen(null);
+        yield return new WaitForSeconds(1);
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
-        clockScript.setTimer(10 + (5*(current_order.Count-1)));
+        clockScript.setTimer(15 + (5 * (current_order.Count - 1)));
+
+
     }
 
     private void clockCheck()
     {
-        if (!onBreak)
+        if (clockScript.isPlaying())
         {
-            if (clockScript.atZero)
+            if (!onBreak)
             {
-                StartCoroutine(failure_to_perform("times_up"));
-                clockScript.stop();
+                if (clockScript.atZero)
+                {
+                    StartCoroutine(failure_to_perform("times_up"));
+                    clockScript.stop();
+                }
             }
-        }
-        else
-        {
-            if (clockScript.atZero)
+            else
             {
-                
-                start_day();
+                if (clockScript.atZero)
+                {
+
+                    start_day();
+                }
             }
         }
     }
