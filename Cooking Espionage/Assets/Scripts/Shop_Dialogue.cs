@@ -8,6 +8,8 @@ public class Shop_Dialogue : MonoBehaviour
     private Dictionary<string, string[]> dialogues = new Dictionary<string, string[]>();
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Kitchen_Handler kitchen_handler;
+    [SerializeField] AudioClip textNoise;
+    [SerializeField] Transform shopkeepTransform;
     private string[] lines;
     public float speed = 0.005f;
     private int index;
@@ -77,7 +79,7 @@ public class Shop_Dialogue : MonoBehaviour
     {
         foreach (char c in lines[index].ToCharArray())
         {
-            //make sound for each letter typed, different colors = different nosies
+            SFXManager.instance.playSFX(textNoise, shopkeepTransform, 0.1f);
             text.text += c;
             yield return new WaitForSeconds(speed);
 

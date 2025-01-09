@@ -8,6 +8,9 @@ public class Expo : MonoBehaviour
     [SerializeField] GameObject cookies;
     [SerializeField] GameObject pan;
     [SerializeField] Transform pan_spawn;
+    [SerializeField] AudioClip bellSound;
+    [SerializeField] Transform bellTransform;
+
     private HashSet<HashSet<string>> order_contents = new HashSet<HashSet<string>>();
     private HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
 
@@ -125,5 +128,10 @@ public class Expo : MonoBehaviour
             hide_pan();
         }
         
+    }
+
+    public void bellNoise()
+    {
+        SFXManager.instance.playSFX(bellSound, bellTransform, 0.5f);
     }
 }

@@ -2850,6 +2850,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 2119881014}
   kitchen_handler: {fileID: 962762068}
+  textNoise: {fileID: 8300000, guid: e85b8390d619bf546833c354dedf0578, type: 3}
+  shopkeepTransform: {fileID: 425732344}
   speed: 0.005
   textFinished: 0
   interactionFinished: 0
@@ -3063,6 +3065,63 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 416442529}
   m_SourcePrefab: {fileID: 100100000, guid: 1ba15fe1f914e454aa2e100e2db7ef74, type: 3}
+--- !u!1001 &390250441
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.288248
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.31892
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.63297
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668003100698068571, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637841037552730217, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
+      propertyPath: m_Name
+      value: SFXManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aece6edbea8b01549aa9c235bc26f697, type: 3}
 --- !u!1 &399575453
 GameObject:
   m_ObjectHideFlags: 0
@@ -14214,6 +14273,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 2136364819}
+  textNoise: {fileID: 0}
+  dayStartSound: {fileID: 0}
+  loudspeakerTransform: {fileID: 0}
   speed: 0.01
   textFinished: 0
 --- !u!1 &853406891
@@ -255428,6 +255490,9 @@ MonoBehaviour:
   cutsceneTexture: {fileID: 8400000, guid: 37c719e46c32a17428da9914b16693e9, type: 2}
   playerCanvas: {fileID: 2793831507915770061}
   cutsceneCanvas: {fileID: 1088812186}
+  garageDoorSound: {fileID: 8300000, guid: b3d97037c61c33645be6c92e62638819, type: 3}
+  doorTransform: {fileID: 416442528}
+  deathNoise: {fileID: 8300000, guid: af1328e7b1cbdea4ca4e0c69a2684066, type: 3}
   total_debt: 2000
   onBreak: 0
   introPlaying: 0
@@ -256422,6 +256487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1079309224}
   kitchen_handler: {fileID: 962762068}
+  doorNoise: {fileID: 0}
 --- !u!65 &1079309227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -267489,6 +267555,7 @@ MonoBehaviour:
   Customer4: {fileID: 821228613}
   rb: {fileID: 1472127426}
   kitchen_handler: {fileID: 962762068}
+  panHitSound: {fileID: 8300000, guid: ab8392ea9a5fd8b49ab770c0e515b176, type: 3}
 --- !u!4 &1472127423
 Transform:
   m_ObjectHideFlags: 0
@@ -271470,9 +271537,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2103827827}
     - target: {fileID: 5121886070194212615, guid: 7b238df9f086cca468dc5167adf6edee, type: 3}
+      propertyPath: bellSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d11b5b3d01d72543bfb6bb0517c0db2, type: 3}
+    - target: {fileID: 5121886070194212615, guid: 7b238df9f086cca468dc5167adf6edee, type: 3}
       propertyPath: pan_spawn
       value: 
       objectReference: {fileID: 666013413}
+    - target: {fileID: 5121886070194212615, guid: 7b238df9f086cca468dc5167adf6edee, type: 3}
+      propertyPath: bellTransform
+      value: 
+      objectReference: {fileID: 1420571369}
     - target: {fileID: 7405235241236201926, guid: 7b238df9f086cca468dc5167adf6edee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.659
@@ -274384,6 +274459,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruel: {fileID: 945519962}
+  wormSound: {fileID: 0}
+  syrupSound: {fileID: 0}
+  eyeSound: {fileID: 0}
   plateFull: 0
 --- !u!114 &93819479678846909
 MonoBehaviour:
@@ -274398,6 +274476,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruel: {fileID: 1136449473119080802}
+  wormSound: {fileID: 0}
+  syrupSound: {fileID: 0}
+  eyeSound: {fileID: 0}
   plateFull: 0
 --- !u!114 &93819479947328866
 MonoBehaviour:
@@ -274412,6 +274493,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruel: {fileID: 1021025091}
+  wormSound: {fileID: 0}
+  syrupSound: {fileID: 0}
+  eyeSound: {fileID: 0}
   plateFull: 0
 --- !u!224 &116887453971250139
 RectTransform:
@@ -274974,6 +275058,8 @@ MonoBehaviour:
     m_Bits: 1225
   playerAnimator: {fileID: 3713881483634001354}
   kitchen_handler: {fileID: 962762068}
+  soupNoise: {fileID: 8300000, guid: 0fa35acc3d290a74490c178ba19f3fb4, type: 3}
+  gruelNoise: {fileID: 8300000, guid: 47ef4075b77a193469a903052ca8866e, type: 3}
   canMove: 0
   canBuyItem: 0
 --- !u!1 &602030382745945010
@@ -280005,6 +280091,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 7842328829769567184}
+  textNoise: {fileID: 8300000, guid: e74110e3e102c184e830c6a763156e8b, type: 3}
+  dayStartSound: {fileID: 8300000, guid: b59afd7e02c46ec4485f6f99ea27ade7, type: 3}
+  loudspeakerTransform: {fileID: 1761328712}
   speed: 0.001
   textFinished: 0
 --- !u!1 &3590089749870036981
@@ -285567,3 +285656,4 @@ SceneRoots:
   - {fileID: 1243151962}
   - {fileID: 2096640849}
   - {fileID: 566756706}
+  - {fileID: 390250441}

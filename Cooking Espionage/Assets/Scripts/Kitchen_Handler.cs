@@ -27,6 +27,12 @@ public class Kitchen_Handler : MonoBehaviour
     [SerializeField] Canvas playerCanvas;
     [SerializeField] Canvas cutsceneCanvas;
 
+    [SerializeField] AudioClip garageDoorSound;
+    [SerializeField] Transform doorTransform;
+    [SerializeField] AudioClip deathNoise;
+
+
+
 
     order_screen orderScreenScript;
     Clock clockScript;
@@ -89,6 +95,7 @@ public class Kitchen_Handler : MonoBehaviour
         city.SetActive(false);
         gameOverText.SetActive(false);
         resetItems();
+        introPlaying = true;
         StartCoroutine(firstDayStart());
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -98,7 +105,6 @@ public class Kitchen_Handler : MonoBehaviour
     IEnumerator firstDayStart()
     {
         Cursor.visible = false;
-        introPlaying = true;
         yield return new WaitForSeconds(5);
         start_day();
     }
@@ -179,6 +185,7 @@ public class Kitchen_Handler : MonoBehaviour
 
     private void killPlayer()
     {
+        SFXManager.instance.playSFX(deathNoise, player.transform, 1f);
         playerScript.kill_player();
     }
 
@@ -203,6 +210,7 @@ public class Kitchen_Handler : MonoBehaviour
     IEnumerator day_start_routine()
     {
         clockScript.stop();
+        dialogueScript.dayStartNoise();
         switch (current_day)
         {
             case 1:
@@ -218,8 +226,9 @@ public class Kitchen_Handler : MonoBehaviour
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
         introPlaying = false;
-
+        dialogueScript.dayStartNoise();
         doorAnimator.SetBool("isOpen", false);
+        SFXManager.instance.playSFX(garageDoorSound, doorTransform, 0.5f);
         expoDoorAnimator.SetBool("isOpen", true);
 
         
@@ -237,6 +246,7 @@ public class Kitchen_Handler : MonoBehaviour
 
     public void order_finished() // called when the player hits the bell
     {
+        expoScript.bellNoise();
         if (!markedForDeath && !introPlaying)
         {
             if (!onBreak)
@@ -375,8 +385,14 @@ public class Kitchen_Handler : MonoBehaviour
         yield return new WaitForSeconds(1);
         expoScript.set_order(current_order);
         orderScreenScript.setScreen(current_order);
-        clockScript.setTimer(15 + (5 * (current_order.Count - 1)));
-
+        if (current_day == 1)
+        {
+            clockScript.setTimer(30);
+        }
+        else
+        {
+            clockScript.setTimer(15 + (5 * (current_order.Count - 1)));
+        }
 
     }
 
@@ -436,6 +452,7 @@ public class Kitchen_Handler : MonoBehaviour
         yield return new WaitUntil(() => dialogueScript.textFinished);
         playerScript.canBuyItem = true;
         doorAnimator.SetBool("isOpen", true);
+        SFXManager.instance.playSFX(garageDoorSound, doorTransform, 0.5f);
         clockScript.setTimer(break_length);
 
     }
@@ -471,6 +488,7 @@ public class Kitchen_Handler : MonoBehaviour
         shopScript.buyItem(item);
         playerScript.canBuyItem = false;
         doorAnimator.SetBool("isOpen", false);
+        SFXManager.instance.playSFX(garageDoorSound, doorTransform, 0.5f);
         switch (item)
         {
             case "cigs":

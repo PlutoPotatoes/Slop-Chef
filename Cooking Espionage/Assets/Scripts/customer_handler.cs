@@ -10,6 +10,7 @@ public class customer_handler : MonoBehaviour
     [SerializeField] GameObject Customer4;
     [SerializeField] Rigidbody rb;
     [SerializeField] Kitchen_Handler kitchen_handler;
+    [SerializeField] AudioClip panHitSound;
     
 
     // Start is called before the first frame update
@@ -58,6 +59,7 @@ public class customer_handler : MonoBehaviour
         if(collision.collider.tag == "Pan")
         {
             print("pan hit");
+            SFXManager.instance.playSFX(panHitSound, transform, 1f);
             StartCoroutine(killCustomer());
 
         }

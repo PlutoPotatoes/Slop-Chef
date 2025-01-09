@@ -7,6 +7,9 @@ public class Dialogue : MonoBehaviour
 {
     private Dictionary<string, string[]> dialogues = new Dictionary<string, string[]>();
     [SerializeField] TextMeshProUGUI text;
+    [SerializeField] AudioClip textNoise;
+    [SerializeField] AudioClip dayStartSound;
+    [SerializeField] Transform loudspeakerTransform;
     private string[] lines;
     public float speed = 0.001f;
     private int index;
@@ -31,7 +34,7 @@ public class Dialogue : MonoBehaviour
             "Should you feel the need to get back to work, simply hit the bell to call a customer"};
         dialogues.Add("break1", break_script1);
 
-        string[] start_day2 = { "<color=red>BREAK IS OVER.", "<color=white>Our employees are <color=red>HUNGRY... BACK TO WORK<color=white>" };
+        string[] start_day2 = { "<color=red>BREAK IS OVER.", "<color=white>Our employees are <color=red>HUNGRY...<br>LETS SPEED THINGS UP...<br>BACK TO WORK<color=white>" };
         dialogues.Add("start_day2", start_day2);
         string[] break_script2 = { "Second shift complete.", "Beginning your <color=yellow>complementary 30 break<color=white>" };
         dialogues.Add("break2", break_script2);
@@ -101,7 +104,7 @@ public class Dialogue : MonoBehaviour
     {
         foreach(char c in lines[index].ToCharArray())
         {
-            //make sound for each letter typed, different colors = different nosies
+            SFXManager.instance.playSFX(textNoise, loudspeakerTransform, 0.1f);
             text.text += c;
             yield return new WaitForSeconds(speed);
 
@@ -128,5 +131,11 @@ public class Dialogue : MonoBehaviour
         StopAllCoroutines();
         textFinished = true;
         gameObject.SetActive(false);
+    }
+
+    public void dayStartNoise()
+    {
+        SFXManager.instance.playSFX(dayStartSound, loudspeakerTransform, 1f);
+
     }
 }

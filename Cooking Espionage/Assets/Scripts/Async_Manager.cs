@@ -11,6 +11,8 @@ public class Async_Manager : MonoBehaviour
 
     [Header("Slider")]
     [SerializeField] private Slider loadingSlider;
+    [SerializeField] AudioClip buttonClickSound;
+    [SerializeField] AudioClip menuMusic;
 
 
 
@@ -18,6 +20,7 @@ public class Async_Manager : MonoBehaviour
 
     private void Start()
     {
+        SFXManager.instance.playSFXLoop(menuMusic, transform, 0.7f);
         loadingScreen.SetActive(false);
         mainMenu.SetActive(true);
 
@@ -45,4 +48,8 @@ public class Async_Manager : MonoBehaviour
         }
     }
 
+    public void buttonClick()
+    {
+        SFXManager.instance.playSFX(buttonClickSound, transform, 1f);
+    }
 }
