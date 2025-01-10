@@ -246,6 +246,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34fc9ddca5111340a3982790edb515c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitAudio: {fileID: 8300000, guid: 71e292f7d37e0fc4e8dea660aa14aa9e, type: 3}
+  hitAudio2: {fileID: 8300000, guid: 7bec6d56604fe474c877848f45a679fd, type: 3}
+  hitAudio3: {fileID: 8300000, guid: 1d590d5ac4fed6443b3369b9f9be2554, type: 3}
+  hitAudio4: {fileID: 8300000, guid: 71e292f7d37e0fc4e8dea660aa14aa9e, type: 3}
+  hitSoundThreshold: 1
+  collideWith:
+    serializedVersion: 2
+    m_Bits: 0
+  audioClips: []
 --- !u!114 &1305664616537488982
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class ObjectGrabbable : MonoBehaviour
 {
-    
+    [SerializeField] AudioClip hitAudio;
+    [SerializeField] AudioClip hitAudio2;
+    [SerializeField] AudioClip hitAudio3;
+    [SerializeField] AudioClip hitAudio4;
+
+    [SerializeField] float hitSoundThreshold;
+
+
     private Rigidbody objectRigidBody;
     private Transform objectGrabPoint;
     public LayerMask collideWith;
     private bool held;
+    public AudioClip[] audioClips;
+    
     private void Awake()
     {
+        audioClips = new AudioClip[] { hitAudio, hitAudio2, hitAudio3, hitAudio4};
+
+
         objectRigidBody = GetComponent<Rigidbody>();
         held = false;
     }
@@ -55,5 +67,15 @@ public class ObjectGrabbable : MonoBehaviour
     public bool isHeld()
     {
         return held;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        print(Mathf.Min(collision.impulse.magnitude, 100) * 0.001f);
+        if(collision.impulse.magnitude > hitSoundThreshold)
+        {
+            
+            SFXManager.instance.playSFX(audioClips[(int)Random.Range(0, audioClips.Length)], transform, Mathf.Min(collision.impulse.magnitude, 100)*0.001f);
+        }
     }
 }

@@ -281,9 +281,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34fc9ddca5111340a3982790edb515c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitAudio: {fileID: 8300000, guid: a3570c618190a67468b03d33310565ce, type: 3}
+  hitAudio2: {fileID: 8300000, guid: 7bec6d56604fe474c877848f45a679fd, type: 3}
+  hitAudio3: {fileID: 8300000, guid: 1d590d5ac4fed6443b3369b9f9be2554, type: 3}
+  hitAudio4: {fileID: 8300000, guid: 71e292f7d37e0fc4e8dea660aa14aa9e, type: 3}
+  hitSoundThreshold: 1
   collideWith:
     serializedVersion: 2
     m_Bits: 0
+  audioClips: []
 --- !u!114 &93819478934600838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +306,7 @@ MonoBehaviour:
   wormSound: {fileID: 8300000, guid: 598f9e2fd0650734888f27a6551e97f1, type: 3}
   syrupSound: {fileID: 8300000, guid: 798136909a1801b4c9dfaa6d3713cf02, type: 3}
   eyeSound: {fileID: 8300000, guid: 334c25d9ba77de34982b53ac0cb75f6a, type: 3}
+  isDisplay: 0
   plateFull: 0
 --- !u!4 &5578893956840338712 stripped
 Transform:
