@@ -178,7 +178,7 @@ public class Player : MonoBehaviour
                     else
                     {
                         plateScript.getGruel();
-                        SFXManager.instance.playSFX(gruelNoise, heldObject.transform, 1f);
+                        SFXManager.instance.playSFX(gruelNoise, heldObject.transform, 0.3f);
                     }
                     return;
                     // add food to plate
@@ -215,7 +215,7 @@ public class Player : MonoBehaviour
                     {
                         Material slopType = hit_info.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
                         bowlScript.setSlop(slopType);
-                        SFXManager.instance.playSFX(soupNoise, heldObject.transform, 1f);
+                        SFXManager.instance.playSFX(soupNoise, heldObject.transform, 0.3f);
 
                     }
 

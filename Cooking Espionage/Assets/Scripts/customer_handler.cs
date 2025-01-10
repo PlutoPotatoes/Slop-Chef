@@ -59,7 +59,7 @@ public class customer_handler : MonoBehaviour
         if(collision.collider.tag == "Pan")
         {
             print("pan hit");
-            SFXManager.instance.playSFX(panHitSound, transform, 1f);
+            SFXManager.instance.playSFX(panHitSound, transform, 0.5f);
             StartCoroutine(killCustomer());
 
         }

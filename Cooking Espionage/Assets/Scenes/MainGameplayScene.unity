@@ -265288,7 +265288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1243151960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274459,9 +274459,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruel: {fileID: 945519962}
-  wormSound: {fileID: 0}
-  syrupSound: {fileID: 0}
-  eyeSound: {fileID: 0}
+  wormSound: {fileID: 8300000, guid: 598f9e2fd0650734888f27a6551e97f1, type: 3}
+  syrupSound: {fileID: 8300000, guid: 798136909a1801b4c9dfaa6d3713cf02, type: 3}
+  eyeSound: {fileID: 8300000, guid: 334c25d9ba77de34982b53ac0cb75f6a, type: 3}
+  isDisplay: 1
   plateFull: 0
 --- !u!114 &93819479678846909
 MonoBehaviour:
@@ -274476,9 +274477,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruel: {fileID: 1136449473119080802}
-  wormSound: {fileID: 0}
-  syrupSound: {fileID: 0}
-  eyeSound: {fileID: 0}
+  wormSound: {fileID: 8300000, guid: 598f9e2fd0650734888f27a6551e97f1, type: 3}
+  syrupSound: {fileID: 8300000, guid: 798136909a1801b4c9dfaa6d3713cf02, type: 3}
+  eyeSound: {fileID: 8300000, guid: 334c25d9ba77de34982b53ac0cb75f6a, type: 3}
+  isDisplay: 1
   plateFull: 0
 --- !u!114 &93819479947328866
 MonoBehaviour:
@@ -274493,9 +274495,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gruel: {fileID: 1021025091}
-  wormSound: {fileID: 0}
-  syrupSound: {fileID: 0}
-  eyeSound: {fileID: 0}
+  wormSound: {fileID: 8300000, guid: 598f9e2fd0650734888f27a6551e97f1, type: 3}
+  syrupSound: {fileID: 8300000, guid: 798136909a1801b4c9dfaa6d3713cf02, type: 3}
+  eyeSound: {fileID: 8300000, guid: 334c25d9ba77de34982b53ac0cb75f6a, type: 3}
+  isDisplay: 1
   plateFull: 0
 --- !u!224 &116887453971250139
 RectTransform:

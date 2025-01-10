@@ -9,6 +9,7 @@ public class plate : MonoBehaviour
     [SerializeField] AudioClip wormSound;
     [SerializeField] AudioClip syrupSound;
     [SerializeField] AudioClip eyeSound;
+    [SerializeField] bool isDisplay;
 
     public bool plateFull;
     private HashSet<string> plateContents = new HashSet<string>();
@@ -46,7 +47,10 @@ public class plate : MonoBehaviour
                     {
                         gruel.transform.Find("Eyeballs").gameObject.SetActive(true);
                         plateContents.Add("eyeballs");
-                        SFXManager.instance.playSFX(eyeSound, transform, 1f);
+                        if (!isDisplay)
+                        {
+                            SFXManager.instance.playSFX(eyeSound, transform, 0.3f);
+                        }
                     }
                     break;
                 case "syrup":
@@ -54,7 +58,10 @@ public class plate : MonoBehaviour
                     {
                         gruel.transform.Find("Syrup").gameObject.SetActive(true);
                         plateContents.Add("syrup");
-                        SFXManager.instance.playSFX(syrupSound, transform, 1f);
+                        if (!isDisplay)
+                        {
+                            SFXManager.instance.playSFX(syrupSound, transform, 0.3f);
+                        }
 
                     }
                     break;
@@ -63,7 +70,10 @@ public class plate : MonoBehaviour
                     {
                         gruel.transform.Find("Worms").gameObject.SetActive(true);
                         plateContents.Add("worms");
-                        SFXManager.instance.playSFX(wormSound, transform, 1f);
+                        if (!isDisplay)
+                        {
+                            SFXManager.instance.playSFX(wormSound, transform, 0.3f);
+                        }
 
                     }
                     break;

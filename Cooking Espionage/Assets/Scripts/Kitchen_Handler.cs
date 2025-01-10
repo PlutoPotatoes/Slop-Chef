@@ -135,7 +135,7 @@ public class Kitchen_Handler : MonoBehaviour
     private HashSet<HashSet<string>> generateOrder(int round_number)
     {
 
-        int num_items = Random.Range(1,round_number+1);
+        int num_items = Mathf.Min(Random.Range(1,round_number+1), 3);
         curr_order_cost = 0;
         HashSet<HashSet<string>> order = new HashSet<HashSet<string>>();
         while (num_items > 0)
@@ -226,7 +226,6 @@ public class Kitchen_Handler : MonoBehaviour
 
         yield return new WaitUntil(() => dialogueScript.textFinished);
         introPlaying = false;
-        dialogueScript.dayStartNoise();
         doorAnimator.SetBool("isOpen", false);
         SFXManager.instance.playSFX(garageDoorSound, doorTransform, 0.5f);
         expoDoorAnimator.SetBool("isOpen", true);
